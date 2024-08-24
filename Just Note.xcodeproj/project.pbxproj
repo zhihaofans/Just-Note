@@ -11,6 +11,7 @@
 		26968C262C7A398D00DDE0A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C252C7A398D00DDE0A5 /* ContentView.swift */; };
 		26968C282C7A398E00DDE0A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26968C272C7A398E00DDE0A5 /* Assets.xcassets */; };
 		26968C2C2C7A398E00DDE0A5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26968C2B2C7A398E00DDE0A5 /* Preview Assets.xcassets */; };
+		26968C342C7A3A2E00DDE0A5 /* SwiftUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 26968C332C7A3A2E00DDE0A5 /* SwiftUtils */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26968C342C7A3A2E00DDE0A5 /* SwiftUtils in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +87,9 @@
 			dependencies = (
 			);
 			name = "Just Note";
+			packageProductDependencies = (
+				26968C332C7A3A2E00DDE0A5 /* SwiftUtils */,
+			);
 			productName = "Just Note";
 			productReference = 26968C202C7A398D00DDE0A5 /* Just Note.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +118,9 @@
 				Base,
 			);
 			mainGroup = 26968C172C7A398D00DDE0A5;
+			packageReferences = (
+				26968C322C7A3A2E00DDE0A5 /* XCRemoteSwiftPackageReference "SwiftUtils" */,
+			);
 			productRefGroup = 26968C212C7A398D00DDE0A5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -359,6 +367,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		26968C322C7A3A2E00DDE0A5 /* XCRemoteSwiftPackageReference "SwiftUtils" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/zhihaofans/SwiftUtils";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		26968C332C7A3A2E00DDE0A5 /* SwiftUtils */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 26968C322C7A3A2E00DDE0A5 /* XCRemoteSwiftPackageReference "SwiftUtils" */;
+			productName = SwiftUtils;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 26968C182C7A398D00DDE0A5 /* Project object */;
 }
