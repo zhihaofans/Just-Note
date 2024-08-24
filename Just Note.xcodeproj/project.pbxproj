@@ -12,6 +12,9 @@
 		26968C282C7A398E00DDE0A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26968C272C7A398E00DDE0A5 /* Assets.xcassets */; };
 		26968C2C2C7A398E00DDE0A5 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26968C2B2C7A398E00DDE0A5 /* Preview Assets.xcassets */; };
 		26968C342C7A3A2E00DDE0A5 /* SwiftUtils in Frameworks */ = {isa = PBXBuildFile; productRef = 26968C332C7A3A2E00DDE0A5 /* SwiftUtils */; };
+		26968C392C7A3B0100DDE0A5 /* SettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C382C7A3B0100DDE0A5 /* SettingView.swift */; };
+		26968C3B2C7A3B1800DDE0A5 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C3A2C7A3B1800DDE0A5 /* MainView.swift */; };
+		26968C3D2C7A3B2000DDE0A5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C3C2C7A3B2000DDE0A5 /* HomeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +24,9 @@
 		26968C272C7A398E00DDE0A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26968C292C7A398E00DDE0A5 /* Just_Note.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Just_Note.entitlements; sourceTree = "<group>"; };
 		26968C2B2C7A398E00DDE0A5 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		26968C382C7A3B0100DDE0A5 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
+		26968C3A2C7A3B1800DDE0A5 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		26968C3C2C7A3B2000DDE0A5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +60,9 @@
 		26968C222C7A398D00DDE0A5 /* Just Note */ = {
 			isa = PBXGroup;
 			children = (
+				26968C372C7A3ABE00DDE0A5 /* Models */,
+				26968C362C7A3AB700DDE0A5 /* Services */,
+				26968C352C7A3AAF00DDE0A5 /* Views */,
 				26968C232C7A398D00DDE0A5 /* Just_NoteApp.swift */,
 				26968C252C7A398D00DDE0A5 /* ContentView.swift */,
 				26968C272C7A398E00DDE0A5 /* Assets.xcassets */,
@@ -69,6 +78,30 @@
 				26968C2B2C7A398E00DDE0A5 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		26968C352C7A3AAF00DDE0A5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				26968C382C7A3B0100DDE0A5 /* SettingView.swift */,
+				26968C3A2C7A3B1800DDE0A5 /* MainView.swift */,
+				26968C3C2C7A3B2000DDE0A5 /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		26968C362C7A3AB700DDE0A5 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		26968C372C7A3ABE00DDE0A5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,7 +180,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26968C392C7A3B0100DDE0A5 /* SettingView.swift in Sources */,
+				26968C3B2C7A3B1800DDE0A5 /* MainView.swift in Sources */,
 				26968C262C7A398D00DDE0A5 /* ContentView.swift in Sources */,
+				26968C3D2C7A3B2000DDE0A5 /* HomeView.swift in Sources */,
 				26968C242C7A398D00DDE0A5 /* Just_NoteApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,6 +318,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "随便记";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -296,7 +333,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.zzhhoo.Just-Note";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -320,6 +357,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "随便记";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -334,7 +372,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.5;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "me.zzhhoo.Just-Note";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
