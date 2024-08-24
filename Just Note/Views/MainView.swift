@@ -26,7 +26,7 @@ struct MainView: View {
             Text("")
                 .fixedSize(horizontal: false, vertical: true) // 纵向固定大小
                 .tabItem {
-                    Label("动态", systemImage: "fanblades")
+                    Label("时间线", systemImage: "chart.xyaxis.line")
                 }
                 .tag(1)
 
