@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+import SwiftData
+
 @main
 struct Just_NoteApp: App {
     var body: some Scene {
