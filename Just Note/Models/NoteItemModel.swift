@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class NoteItemData {
+final class NoteItemModel {
     let id: String
     let title: String
     let desc: String

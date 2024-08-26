@@ -10,48 +10,49 @@ import SwiftUtils
 
 struct HomeView: View {
     @Environment(\.modelContext) private var context // 上下文
-    @Query private var items: [NoteItemData] // 查询
+    @State private var items = [NoteItemModel]() // 查询
     // 默认排序方式
-    @State private var sortOrder = SortDescriptor(\NoteItemData.update_time, order: .reverse)
+    @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
     var body: some View {
-        VStack {
-            NoteListView(sort: sortOrder)
-        }
-        .navigationTitle(AppUtil().getAppName())
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: AddView()) {
-                    // TODO: 这里跳转到个人页面或登录界面
-                    Image(systemName: "plus")
+        NavigationStack(path: $items) {
+            VStack {
+                NoteListView(sort: sortOrder)
+            }
+            .navigationTitle(AppUtil().getAppName())
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: AddView()) {
+                        Image(systemName: "plus")
+                    }
                 }
             }
-        }.modelContainer(for: NoteItemData.self) // 这里和Environment变量的使用方式也非常类似
+        }
     }
 }
 
 struct NoteListView: View {
     @Environment(\.modelContext) private var modelContext
     // 4. 查询并排序
-    @Query private var reminderItems: [NoteItemData]
+    @Query private var noteList: [NoteItemModel]
 
-    init(sort: SortDescriptor<NoteItemData>) {
-        _reminderItems = Query(sort: [sort])
+    init(sort: SortDescriptor<NoteItemModel>) {
+        _noteList = Query(sort: [sort])
     }
 
     var body: some View {
-        if reminderItems.isEmpty {
+        if noteList.isEmpty {
             ContentUnavailableView.search
         } else {
             List {
-                ForEach(reminderItems) { reminderItem in
-                    NavigationLink(value: reminderItem) {
+                ForEach(noteList, id: \.self.id) { item in
+                    NavigationLink(value: item) {
                         HStack {
-                            Text(reminderItem.title)
+                            Text(item.title)
 
                             Spacer()
 
-                            Text(DateUtil().timestampToTimeStr(timestampInt: reminderItem.timestamp))
+                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
                         }
                     }
                 }
@@ -63,7 +64,7 @@ struct NoteListView: View {
     // 2. 删除
     func deletedTodoItem(_ indexSet: IndexSet) {
         for index in indexSet {
-            let reminderItem = reminderItems[index]
+            let reminderItem = noteList[index]
             modelContext.delete(reminderItem)
         }
     }
@@ -96,6 +97,6 @@ struct EmptyView: View {
     }
 }
 
-#Preview {
-    HomeView()
-}
+// #Preview {
+//    HomeView()
+// }

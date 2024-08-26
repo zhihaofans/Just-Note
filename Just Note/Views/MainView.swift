@@ -14,8 +14,7 @@ struct MainView: View {
         case 2:
             SettingView()
         default:
-            HomeView()
-                .modelContainer(for: NoteItemData.self) // 这里和Environment变量的使用方式也非常类似
+            HomeView().modelContainer(for: NoteItemModel.self) // 这里和Environment变量的使用方式也非常类似
         }
         TabView(selection: $selectedTab) {
             Text("")
