@@ -22,7 +22,7 @@ struct HomeView: View {
             .navigationTitle(AppUtil().getAppName())
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddView()) {
+                    NavigationLink(destination: EditView()) {
                         Image(systemName: "plus")
                     }
                 }
@@ -42,7 +42,14 @@ struct NoteListView: View {
 
     var body: some View {
         if noteList.isEmpty {
-            ContentUnavailableView.search
+            ContentUnavailableView {
+                Label("什么都没记", systemImage: "questionmark.folder.ar")
+            } actions: {
+                Spacer()
+                Button("随便记一下") {
+                    // TODO: add note
+                }.buttonStyle(.borderedProminent)
+            }
         } else {
             List {
                 ForEach(noteList, id: \.self.id) { item in

@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddView: View {
+struct EditView: View {
     @State var noteType = "纯文本"
     var body: some View {
         VStack {
@@ -32,5 +32,5 @@ struct AddView: View {
 }
 
 #Preview {
-    AddView()
+    EditView()
 }
