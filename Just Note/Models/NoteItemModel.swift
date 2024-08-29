@@ -10,13 +10,13 @@ import SwiftData
 
 @Model
 final class NoteItemModel {
-    let id: String
-    let title: String
-    let desc: String
-    let type: String
-    let version: Int
-    let create_time: Int
-    let update_time: Int
+    var id: String
+    var title: String
+    var desc: String
+    var type: String
+    var version: Int
+    var create_time: Int
+    var update_time: Int
     init(id: String, title: String, desc: String, type: String, version: Int, create_time: Int, update_time: Int) {
         self.id = id
         self.title = title

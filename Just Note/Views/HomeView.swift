@@ -22,12 +22,21 @@ struct HomeView: View {
             .navigationTitle(AppUtil().getAppName())
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EditView()) {
+                    NavigationLink(destination: EditView(noteItem: addItem())) {
                         Image(systemName: "plus")
                     }
                 }
             }
         }
+    }
+
+    func addItem() -> NoteItemModel {
+        let time = DateUtil().getTimestamp()
+        let id = UUID().uuidString
+        let noteItem = NoteItemModel(id: id, title: "", desc: "", type: "text", version: 1, create_time: time, update_time: time)
+        context.insert(noteItem)
+        items = [noteItem]
+        return noteItem
     }
 }
 
@@ -48,6 +57,10 @@ struct NoteListView: View {
                 Spacer()
                 Button("随便记一下") {
                     // TODO: add note
+                    NavigationLink(destination: EditView(noteItem: addItem())) {
+                        Image(systemName: "plus")
+                    }
+
                 }.buttonStyle(.borderedProminent)
             }
         } else {
@@ -71,8 +84,8 @@ struct NoteListView: View {
     // 2. 删除
     func deletedTodoItem(_ indexSet: IndexSet) {
         for index in indexSet {
-            let reminderItem = noteList[index]
-            modelContext.delete(reminderItem)
+            let noteItem = noteList[index]
+            modelContext.delete(noteItem)
         }
     }
 }
