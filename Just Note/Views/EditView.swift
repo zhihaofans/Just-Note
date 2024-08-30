@@ -11,8 +11,9 @@ import SwiftUtils
 
 struct EditView: View {
     @Environment(\.modelContext) private var modelContext
-    @State var noteItem: NoteItemModel
-    @State var noteType = "纯文本"
+    @State var noteItem: NoteItemModel?
+    @State var noteTitle = ""
+    @State var noteTime = 0
     var body: some View {
         VStack {
             List {
@@ -26,8 +27,8 @@ struct EditView: View {
                 // 3. 修改
 
                 Text("请输入标题!").font(.largeTitle)
-                TextField("标题:", text: $noteItem.title)
-                Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time)).font(.largeTitle)
+                TextField("标题:", text: $noteTitle)
+                Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteTime)).font(.largeTitle)
                 Button(action: {}) {
                     Text("").font(.title)
                 }
@@ -41,10 +42,23 @@ struct EditView: View {
                     Image(systemName: "plus")
                 }
             }
+        }.onAppear {
+            if noteItem == nil {
+                noteItem = addItem()
+            }
+            noteTitle = noteItem?.title ?? ""
+            noteTime = noteItem?.create_time ?? 0
         }
+    }
+
+    func addItem() -> NoteItemModel {
+        let time = DateUtil().getTimestamp()
+        let id = UUID().uuidString
+        let noteItem = NoteItemModel(id: id, title: "", desc: "", type: "text", version: 1, create_time: time, update_time: time)
+        return noteItem
     }
 }
 
-//#Preview {
+// #Preview {
 //    EditView()
-//}
+// }

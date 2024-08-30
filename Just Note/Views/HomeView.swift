@@ -11,20 +11,56 @@ import SwiftUtils
 struct HomeView: View {
     @Environment(\.modelContext) private var context // 上下文
     @State private var items = [NoteItemModel]() // 查询
+    @Query private var noteList: [NoteItemModel]
+    @State var isEditNavActive = false
     // 默认排序方式
     @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
     var body: some View {
         NavigationStack(path: $items) {
             VStack {
-                NoteListView(sort: sortOrder)
+                if noteList.isEmpty {
+                    ContentUnavailableView {
+                        Label("什么都没记", systemImage: "questionmark.folder.ar")
+                    } actions: {
+                        Spacer()
+                        Button("随便记一下") {
+                            // TODO: add note
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                } else {
+                    List {
+                        ForEach(noteList, id: \.self.id) { item in
+                            NavigationLink(value: item) {
+                                HStack {
+                                    Text(item.title)
+
+                                    Spacer()
+
+                                    Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
+                                }
+                            }
+                        }
+                        .onDelete(perform: deletedTodoItem)
+                    }
+                }
             }
             .navigationTitle(AppUtil().getAppName())
+            .navigationDestination(isPresented: $isEditNavActive) {
+                //EditView(noteItem: addItem())
+            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EditView(noteItem: addItem())) {
+                    NavigationLink(destination: Text("REMOVE")) {
                         Image(systemName: "plus")
                     }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: Text("ADD")) {
+                        Image(systemName: "plus")
+                    }
+                   
                 }
             }
         }
@@ -38,54 +74,12 @@ struct HomeView: View {
         items = [noteItem]
         return noteItem
     }
-}
-
-struct NoteListView: View {
-    @Environment(\.modelContext) private var modelContext
-    // 4. 查询并排序
-    @Query private var noteList: [NoteItemModel]
-
-    init(sort: SortDescriptor<NoteItemModel>) {
-        _noteList = Query(sort: [sort])
-    }
-
-    var body: some View {
-        if noteList.isEmpty {
-            ContentUnavailableView {
-                Label("什么都没记", systemImage: "questionmark.folder.ar")
-            } actions: {
-                Spacer()
-                Button("随便记一下") {
-                    // TODO: add note
-                    NavigationLink(destination: EditView(noteItem: addItem())) {
-                        Image(systemName: "plus")
-                    }
-
-                }.buttonStyle(.borderedProminent)
-            }
-        } else {
-            List {
-                ForEach(noteList, id: \.self.id) { item in
-                    NavigationLink(value: item) {
-                        HStack {
-                            Text(item.title)
-
-                            Spacer()
-
-                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
-                        }
-                    }
-                }
-                .onDelete(perform: deletedTodoItem)
-            }
-        }
-    }
 
     // 2. 删除
     func deletedTodoItem(_ indexSet: IndexSet) {
         for index in indexSet {
             let noteItem = noteList[index]
-            modelContext.delete(noteItem)
+            context.delete(noteItem)
         }
     }
 }
