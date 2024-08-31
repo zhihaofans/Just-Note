@@ -10,5 +10,5 @@ import SwiftUtils
 
 class NoteService {
     init() {}
-
+    func getNoteList() {}
 }
