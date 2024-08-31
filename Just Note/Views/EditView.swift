@@ -5,12 +5,10 @@
 //  Created by zzh on 2024/8/25.
 //
 
-import SwiftData
 import SwiftUI
 import SwiftUtils
 
 struct EditView: View {
-    @Environment(\.modelContext) private var modelContext
     @State var noteItem: NoteItemModel?
     @State var noteTitle = ""
     @State var noteTime = 0

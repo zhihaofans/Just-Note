@@ -4,20 +4,16 @@
 //
 //  Created by zzh on 2024/8/25.
 //
-import SwiftData
 import SwiftUI
 import SwiftUtils
 
 struct HomeView: View {
-    @Environment(\.modelContext) private var context // 上下文
-    @State private var items = [NoteItemModel]() // 查询
-    @Query private var noteList: [NoteItemModel]
-    @State var isEditNavActive = false
+    @State private var noteList: [NoteItemModel]
     // 默认排序方式
-    @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
+    // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
     var body: some View {
-        NavigationStack(path: $items) {
+        NavigationStack(path: $noteList) {
             VStack {
                 if noteList.isEmpty {
                     ContentUnavailableView {
@@ -47,9 +43,6 @@ struct HomeView: View {
                 }
             }
             .navigationTitle(AppUtil().getAppName())
-            .navigationDestination(isPresented: $isEditNavActive) {
-                //EditView(noteItem: addItem())
-            }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: Text("REMOVE")) {
@@ -60,26 +53,16 @@ struct HomeView: View {
                     NavigationLink(destination: Text("ADD")) {
                         Image(systemName: "plus")
                     }
-                   
                 }
             }
         }
-    }
-
-    func addItem() -> NoteItemModel {
-        let time = DateUtil().getTimestamp()
-        let id = UUID().uuidString
-        let noteItem = NoteItemModel(id: id, title: "", desc: "", type: "text", version: 1, create_time: time, update_time: time)
-        context.insert(noteItem)
-        items = [noteItem]
-        return noteItem
     }
 
     // 2. 删除
     func deletedTodoItem(_ indexSet: IndexSet) {
         for index in indexSet {
             let noteItem = noteList[index]
-            context.delete(noteItem)
+            // context.delete(noteItem)
         }
     }
 }
