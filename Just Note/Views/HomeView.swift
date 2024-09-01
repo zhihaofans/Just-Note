@@ -8,35 +8,42 @@ import SwiftUI
 import SwiftUtils
 
 struct HomeView: View {
-    @State private var noteList: [NoteItemModel]
+    @State private var noteList: [NoteItemModel] = []
     // 默认排序方式
     // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
     var body: some View {
-        NavigationStack(path: $noteList) {
+        NavigationStack {
             VStack {
                 if noteList.isEmpty {
                     ContentUnavailableView {
                         Label("什么都没记", systemImage: "questionmark.folder.ar")
                     } actions: {
                         Spacer()
-                        Button("随便记一下") {
-                            // TODO: add note
+                        NavigationLink(destination: EditView(editNoteItem: nil)) {
+                            //                        Button("随便记一下") {
+                            //                            // TODO: add note
+                            //                        }
+                            //                        .buttonStyle(.borderedProminent)
+                            Text("随便记一下")
+                                .padding()
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
                         }
-                        .buttonStyle(.borderedProminent)
                     }
                 } else {
                     List {
-                        ForEach(noteList, id: \.self.id) { item in
-                            NavigationLink(value: item) {
-                                HStack {
-                                    Text(item.title)
-
-                                    Spacer()
-
-                                    Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
-                                }
-                            }
+                        ForEach(noteList, id: \.self.id) { _ in
+                            //                        NavigationLink(value: item) {
+                            //                            HStack {
+                            //                                Text(item.title)
+                            //
+                            //                                Spacer()
+                            //
+                            //                                Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
+                            //                            }
+                            //                        }
                         }
                         .onDelete(perform: deletedTodoItem)
                     }
@@ -63,6 +70,52 @@ struct HomeView: View {
         for index in indexSet {
             let noteItem = noteList[index]
             // context.delete(noteItem)
+        }
+    }
+}
+
+struct NoteListView: View {
+    private var noteList: [NoteItemModel]
+//    init() {}
+
+    var body: some View {
+        if noteList.isEmpty {
+            ContentUnavailableView {
+                Label("什么都没记", systemImage: "questionmark.folder.ar")
+            } actions: {
+                Spacer()
+                Button("随便记一下") {
+                    // TODO: add note
+                    NavigationLink(destination: EmptyView()) {
+                        Image(systemName: "plus")
+                    }
+
+                }.buttonStyle(.borderedProminent)
+            }
+        } else {
+            List {
+                ForEach(noteList, id: \.self.id) { _ in
+//                    NavigationLink(value: item) {
+//                        HStack {
+//                            Text(item.title)
+//
+//                            Spacer()
+//
+//                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
+//                        }
+//                    }
+                }
+                .onDelete(perform: deletedTodoItem)
+            }
+        }
+    }
+
+    // 2. 删除
+    func deletedTodoItem(_ indexSet: IndexSet) {
+        for index in indexSet {
+//            let noteItem = noteList[index]
+//            modelContext.delete(noteItem)
+//            context.delete(noteItem)
         }
     }
 }

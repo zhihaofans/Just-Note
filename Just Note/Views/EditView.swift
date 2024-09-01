@@ -9,26 +9,23 @@ import SwiftUI
 import SwiftUtils
 
 struct EditView: View {
-    @State var noteItem: NoteItemModel?
-    @State var noteTitle = ""
-    @State var noteTime = 0
+    @State private var noteItem: NoteItemModel
+    init(editNoteItem: NoteItemModel?) {
+        let time = DateUtil().getTimestamp()
+        let id = UUID().uuidString
+        self.noteItem = editNoteItem ?? NoteItemModel(id: id, title: "", desc: "", type: "", version: 1, create_time: time, update_time: time)
+    }
+
     var body: some View {
         VStack {
-            List {
-                Menu("模式") {
-                    Button("Copy", action: {})
-                    Button("Copy Formatted", action: {})
-                    Button("Copy Library Path", action: {})
-                }
-            }
             Form {
-                // 3. 修改
-
-                Text("请输入标题!").font(.largeTitle)
-                TextField("标题:", text: $noteTitle)
-                Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteTime)).font(.largeTitle)
-                Button(action: {}) {
-                    Text("").font(.title)
+                // TODO: 修改
+                TextField("标题:", text: $noteItem.title)
+                Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time)).font(.largeTitle)
+                Button(action: {
+                    
+                }) {
+                    Text("保存").font(.title)
                 }
             }
         }
@@ -37,15 +34,9 @@ struct EditView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 NavigationLink(destination: EmptyView()) {
                     // TODO: 这里跳转到个人页面或登录界面
-                    Image(systemName: "plus")
+                    Image(systemName: "square.and.arrow.down")
                 }
             }
-        }.onAppear {
-            if noteItem == nil {
-                noteItem = addItem()
-            }
-            noteTitle = noteItem?.title ?? ""
-            noteTime = noteItem?.create_time ?? 0
         }
     }
 
