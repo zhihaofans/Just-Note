@@ -23,6 +23,11 @@ struct SettingView: View {
                     SimpleTextItemView(title: "开发者", detail: "zhihaofans")
                     SimpleTextItemView(title: "版本号", detail: "\(AppUtil().getAppVersion()) (\(AppUtil().getAppBuild()))" /* "0.0.1" */ )
                 }
+                Section(header: Text("驱动引擎")) {
+                    SimpleTextItemView(title: "开发工具", detail: "强大的Xcode")
+                    SimpleTextItemView(title: "开发语言", detail: "先进的Swift")
+                    SimpleTextItemView(title: "数据储存", detail: "落后的UserDefaults" )
+                }
             }
         }
     }
