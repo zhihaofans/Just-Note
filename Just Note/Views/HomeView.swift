@@ -33,20 +33,19 @@ struct HomeView: View {
                         }
                     }
                 } else {
-                    List {
-                        ForEach(noteList, id: \.self.id) { _ in
-                            //                        NavigationLink(value: item) {
-                            //                            HStack {
-                            //                                Text(item.title)
-                            //
-                            //                                Spacer()
-                            //
-                            //                                Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
-                            //                            }
-                            //                        }
-                        }
-                        .onDelete(perform: deletedTodoItem)
+                    List(noteList) { _ in
+                        <#code#>
                     }
+                    List(noteList) { item in
+                        NavigationLink(destination: EditView(editNoteItem: item)) {
+                            Text(item.title)
+
+                            Spacer()
+
+                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
+                        }
+                    }
+//                    .onDelete(perform: deletedTodoItem)
                 }
             }
             .navigationTitle(AppUtil().getAppName())
