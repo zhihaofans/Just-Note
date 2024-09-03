@@ -23,7 +23,7 @@ struct EditView: View {
                 TextField("标题:", text: $noteItem.title)
                 Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time)).font(.largeTitle)
                 Button(action: {
-                    
+                    saveItem()
                 }) {
                     Text("保存").font(.title)
                 }
@@ -40,11 +40,10 @@ struct EditView: View {
         }
     }
 
-    func addItem() -> NoteItemModel {
-        let time = DateUtil().getTimestamp()
-        let id = UUID().uuidString
-        let noteItem = NoteItemModel(id: id, title: "", desc: "", type: "text", version: 1, create_time: time, update_time: time)
-        return noteItem
+    func saveItem() {
+        let nowTime = DateUtil().getTimestamp()
+        noteItem.update_time = nowTime
+//       TODO: NoteService().updateNote(noteItem: noteItem)
     }
 }
 

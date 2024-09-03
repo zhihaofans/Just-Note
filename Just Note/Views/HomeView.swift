@@ -33,10 +33,7 @@ struct HomeView: View {
                         }
                     }
                 } else {
-                    List(noteList) { _ in
-                        <#code#>
-                    }
-                    List(noteList) { item in
+                    List(noteList, id: \.id) { item in
                         NavigationLink(destination: EditView(editNoteItem: item)) {
                             Text(item.title)
 
@@ -50,11 +47,11 @@ struct HomeView: View {
             }
             .navigationTitle(AppUtil().getAppName())
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: Text("REMOVE")) {
-                        Image(systemName: "plus")
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    NavigationLink(destination: Text("REMOVE")) {
+//                        Image(systemName: "plus")
+//                    }
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: Text("ADD")) {
                         Image(systemName: "plus")
