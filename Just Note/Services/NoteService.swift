@@ -44,4 +44,7 @@ class NoteService {
         oldList.removeAll(where: { $0.id == id })
         setNoteList(noteList: oldList)
     }
+    func removeAllNote() {
+        UDUtil.remove(key: UDids.note_item_list)
+    }
 }
