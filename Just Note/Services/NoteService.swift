@@ -47,4 +47,22 @@ class NoteService {
     func removeAllNote() {
         UDUtil.remove(key: UDids.note_item_list)
     }
+    func updateNote(noteItem: NoteItemModel) - Bool {
+        var oldList = getNoteList()
+        //oldList.append(noteItem)
+        if let index = oldList.firstIndex(where: { $0.id == noteItem.id }) {
+            // 更新title
+            oldList[index] = noteItem
+            setNoteList(noteList: oldList)
+            return true
+        } else {
+            print("未找到指定id的元素")
+            return false
+        }
+        
+    }
+    func hasNote(noteItemId: String) -> Bool {
+        var oldList = getNoteList()
+        return oldList.contains { $0.id == noteItem.id }
+    }
 }
