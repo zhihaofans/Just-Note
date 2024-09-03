@@ -16,8 +16,20 @@ struct HomeView: View {
         NavigationStack {
             VStack {
                 if $noteList.isEmpty {
-                    Text("点右上角记点东西").font(.largeTitle)
-//                TODO: 下面代码在实机ios 18 Beta失效
+//                    Text("点右上角记点东西").font(.largeTitle)
+
+                    NavigationLink(destination: EditView(editNoteItem: nil)) {
+                        //                        Button("随便记一下") {
+                        //                            // TODO: add note
+                        //                        }
+                        //                        .buttonStyle(.borderedProminent)
+                        Text("随便记一下")
+                            .padding()
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    }
+//                TODO: 下面代码在实机ios 18 Beta失效（应该是ContentUnavailableView）
 //                    ContentUnavailableView {
 //                        Label("什么都没记", systemImage: "questionmark.folder.ar")
 //                    } actions: {
@@ -38,9 +50,10 @@ struct HomeView: View {
                     List(noteList, id: \.id) { item in
                         let newTitle = item.title.isEmpty ? "[空白]" : item.title
                         NavigationLink(destination: EditView(editNoteItem: item)) {
-                            Text(newTitle)
-
-                            Spacer()
+                            SimpleTextItemView(title: newTitle, detail: TimeService().timestampToShortChinese(timestamp: item.create_time))
+//                            Text(newTitle)
+//
+//                            Spacer()
 
                             // Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
                         }
@@ -70,6 +83,6 @@ struct HomeView: View {
     }
 }
 
-// #Preview {
-//    HomeView()
-// }
+#Preview {
+    HomeView()
+}

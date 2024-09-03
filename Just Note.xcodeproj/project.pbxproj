@@ -20,6 +20,7 @@
 		26968C442C7B833D00DDE0A5 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C432C7B833D00DDE0A5 /* NoteService.swift */; };
 		26968C462C7B838900DDE0A5 /* NoteItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C452C7B838900DDE0A5 /* NoteItemModel.swift */; };
 		269775AC2C874CB4009350ED /* SettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269775AB2C874CB4009350ED /* SettingService.swift */; };
+		269775AE2C877076009350ED /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269775AD2C877076009350ED /* TimeService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		26968C432C7B833D00DDE0A5 /* NoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteService.swift; sourceTree = "<group>"; };
 		26968C452C7B838900DDE0A5 /* NoteItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteItemModel.swift; sourceTree = "<group>"; };
 		269775AB2C874CB4009350ED /* SettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingService.swift; sourceTree = "<group>"; };
+		269775AD2C877076009350ED /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 			children = (
 				26968C432C7B833D00DDE0A5 /* NoteService.swift */,
 				269775AB2C874CB4009350ED /* SettingService.swift */,
+				269775AD2C877076009350ED /* TimeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 			files = (
 				26968C422C7A3F1C00DDE0A5 /* EditView.swift in Sources */,
 				26968C392C7A3B0100DDE0A5 /* SettingView.swift in Sources */,
+				269775AE2C877076009350ED /* TimeService.swift in Sources */,
 				26968C3B2C7A3B1800DDE0A5 /* MainView.swift in Sources */,
 				26968C442C7B833D00DDE0A5 /* NoteService.swift in Sources */,
 				26968C262C7A398D00DDE0A5 /* ContentView.swift in Sources */,
