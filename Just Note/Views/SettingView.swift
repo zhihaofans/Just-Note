@@ -10,23 +10,44 @@ import SwiftUI
 import SwiftUtils
 
 struct SettingView: View {
+    @State private var isAutoPaste = false
+    private let setSerivce = SettingService()
     var body: some View {
-        VStack {
-            List {
-                if let appIcon = AppUtil().getAppIconImage() {
-                    AppIconAndNameView(image: appIcon)
-                    // 你可以在你的UI中展示这个appIcon, 比如在UIImageView中
-                } else {
-                    Text("加载应用图标失败：可能未设置")
+        NavigationView {
+            VStack {
+                List {
+                    if let appIcon = AppUtil().getAppIconImage() {
+                        AppIconAndNameView(image: appIcon)
+                    } else {
+                        Text("加载应用图标失败：可能未设置")
+                    }
+                    Section(header: Text("关于")) {
+                        SimpleTextItemView(title: "开发者", detail: "zhihaofans")
+                        SimpleTextItemView(title: "版本号", detail: "\(AppUtil().getAppVersion()) (\(AppUtil().getAppBuild()))" /* "0.0.1" */ )
+                    }
+                    Section(header: Text("驱动引擎")) {
+                        SimpleTextItemView(title: "开发工具", detail: "强大的Xcode")
+                        SimpleTextItemView(title: "开发语言", detail: "先进的Swift")
+                        SimpleTextItemView(title: "数据储存", detail: "落后的UserDefaults")
+                    }
+                    Section(header: Text("编辑")) {
+                        Toggle(isOn: $isAutoPaste) {
+                            Text("新增自动粘贴")
+                        }
+                    }
                 }
-                Section(header: Text("关于")) {
-                    SimpleTextItemView(title: "开发者", detail: "zhihaofans")
-                    SimpleTextItemView(title: "版本号", detail: "\(AppUtil().getAppVersion()) (\(AppUtil().getAppBuild()))" /* "0.0.1" */ )
-                }
-                Section(header: Text("驱动引擎")) {
-                    SimpleTextItemView(title: "开发工具", detail: "强大的Xcode")
-                    SimpleTextItemView(title: "开发语言", detail: "先进的Swift")
-                    SimpleTextItemView(title: "数据储存", detail: "落后的UserDefaults" )
+            }.onAppear {
+                isAutoPaste = setSerivce.getAutoPasteMode()
+            }
+            .navigationTitle("更多")
+            .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        setSerivce.setAutoPasteMode(value: isAutoPaste)
+                    }) {
+                        Image(systemName: "square.and.arrow.down")
+                    }
                 }
             }
         }
