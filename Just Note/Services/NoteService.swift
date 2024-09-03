@@ -51,8 +51,14 @@ class NoteService {
         var oldList = getNoteList()
         //oldList.append(noteItem)
         if let index = oldList.firstIndex(where: { $0.id == noteItem.id }) {
-            // 更新title
-            oldList[index] = noteItem
+            if index < 0 || index >= oldList.count{
+                return false
+            }
+            let newItem = noteItem
+            if newItem.type.isEmpty {
+                newItem.type = "text"
+            }
+            oldList[index] = newItem
             setNoteList(noteList: oldList)
             return true
         } else {
