@@ -25,15 +25,20 @@ class NoteService {
     }
 
     func setNoteList(noteList: [NoteItemModel]) {
+        print("setNoteList")
+        print(noteList)
         let jsonList = noteList.compactMap {
             try? String(data: JSONEncoder().encode($0), encoding: .utf8)
         }
-        if jsonList.isNotEmpty {
-            UDUtil.setArrayString(key: UDids.note_item_list, value: jsonList)
-        }
+        UDUtil.setArrayString(key: UDids.note_item_list, value: jsonList)
+//        if jsonList.isNotEmpty {
+//            UDUtil.setArrayString(key: UDids.note_item_list, value: jsonList)
+//        }
     }
 
     func addNote(noteItem: NoteItemModel) {
+        print("addNote")
+        print(noteItem)
         var oldList = getNoteList()
         oldList.append(noteItem)
         setNoteList(noteList: oldList)
@@ -44,31 +49,33 @@ class NoteService {
         oldList.removeAll(where: { $0.id == id })
         setNoteList(noteList: oldList)
     }
+
     func removeAllNote() {
         UDUtil.remove(key: UDids.note_item_list)
     }
-    func updateNote(noteItem: NoteItemModel) - Bool {
+
+    func updateNote(noteItem: NoteItemModel) -> Bool {
+        print("updateNote")
+        print(noteItem)
         var oldList = getNoteList()
-        //oldList.append(noteItem)
+        var newItem = noteItem
+        if newItem.type.isEmpty {
+            newItem.type = "text"
+        }
         if let index = oldList.firstIndex(where: { $0.id == noteItem.id }) {
-            if index < 0 || index >= oldList.count{
+            if index < 0 || index >= oldList.count {
                 return false
-            }
-            let newItem = noteItem
-            if newItem.type.isEmpty {
-                newItem.type = "text"
             }
             oldList[index] = newItem
             setNoteList(noteList: oldList)
             return true
         } else {
-            print("未找到指定id的元素")
-            return false
+            addNote(noteItem: noteItem)
+            return true
         }
-        
     }
+
     func hasNote(noteItemId: String) -> Bool {
-        var oldList = getNoteList()
-        return oldList.contains { $0.id == noteItem.id }
+        return getNoteList().contains { $0.id == noteItemId }
     }
 }

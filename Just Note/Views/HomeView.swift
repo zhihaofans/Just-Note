@@ -34,12 +34,13 @@ struct HomeView: View {
                     }
                 } else {
                     List(noteList, id: \.id) { item in
+                        var newTitle = item.title.isEmpty ? "[空白]" : item.title
                         NavigationLink(destination: EditView(editNoteItem: item)) {
-                            Text(item.title)
+                            Text(newTitle)
 
                             Spacer()
 
-                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
+                            // Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
                         }
                     }
 //                    .onDelete(perform: deletedTodoItem)
@@ -47,16 +48,20 @@ struct HomeView: View {
             }
             .navigationTitle(AppUtil().getAppName())
             .toolbar {
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    NavigationLink(destination: Text("REMOVE")) {
-//                        Image(systemName: "plus")
-//                    }
-//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: Text("ADD")) {
+                    Button(action: {
+                        noteList = NoteService().getNoteList()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: EditView(editNoteItem: nil)) {
                         Image(systemName: "plus")
                     }
                 }
+            }.onAppear {
+                noteList = NoteService().getNoteList()
             }
         }
     }
@@ -66,52 +71,6 @@ struct HomeView: View {
         for index in indexSet {
             let noteItem = noteList[index]
             // context.delete(noteItem)
-        }
-    }
-}
-
-struct NoteListView: View {
-    private var noteList: [NoteItemModel]
-//    init() {}
-
-    var body: some View {
-        if noteList.isEmpty {
-            ContentUnavailableView {
-                Label("什么都没记", systemImage: "questionmark.folder.ar")
-            } actions: {
-                Spacer()
-                Button("随便记一下") {
-                    // TODO: add note
-                    NavigationLink(destination: EmptyView()) {
-                        Image(systemName: "plus")
-                    }
-
-                }.buttonStyle(.borderedProminent)
-            }
-        } else {
-            List {
-                ForEach(noteList, id: \.self.id) { _ in
-//                    NavigationLink(value: item) {
-//                        HStack {
-//                            Text(item.title)
-//
-//                            Spacer()
-//
-//                            Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
-//                        }
-//                    }
-                }
-                .onDelete(perform: deletedTodoItem)
-            }
-        }
-    }
-
-    // 2. 删除
-    func deletedTodoItem(_ indexSet: IndexSet) {
-        for index in indexSet {
-//            let noteItem = noteList[index]
-//            modelContext.delete(noteItem)
-//            context.delete(noteItem)
         }
     }
 }
