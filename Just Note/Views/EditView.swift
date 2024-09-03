@@ -31,11 +31,11 @@ struct EditView: View {
                 Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time))
                 Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
             }
-            Button(action: {
-                saveItem()
-            }) {
-                Text("保存").font(.title)
-            }
+//            Button(action: {
+//                saveItem()
+//            }) {
+//                Text("保存").font(.title)
+//            }
         }
         .navigationTitle($viewTitle)
         .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
@@ -67,11 +67,18 @@ struct EditView: View {
             })
         } message: {
             Text("删了就找不回了！")
+        }.onAppear {
+            if isNew && SettingService().getAutoPasteMode() {
+                noteItem.title = ClipboardUtil().getString()
+            }
         }
     }
 
     func saveItem() {
+        print("saveItem")
         noteItem.update_time = DateUtil().getTimestamp()
+        let saveRe = NoteService().updateNote(noteItem: noteItem)
+        print(saveRe)
     }
 }
 

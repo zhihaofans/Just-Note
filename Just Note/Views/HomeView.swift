@@ -15,26 +15,28 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if noteList.isEmpty {
-                    ContentUnavailableView {
-                        Label("什么都没记", systemImage: "questionmark.folder.ar")
-                    } actions: {
-                        Spacer()
-                        NavigationLink(destination: EditView(editNoteItem: nil)) {
-                            //                        Button("随便记一下") {
-                            //                            // TODO: add note
-                            //                        }
-                            //                        .buttonStyle(.borderedProminent)
-                            Text("随便记一下")
-                                .padding()
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
-                    }
+                if $noteList.isEmpty {
+                    Text("点右上角记点东西").font(.largeTitle)
+//                TODO: 下面代码在实机ios 18 Beta失效
+//                    ContentUnavailableView {
+//                        Label("什么都没记", systemImage: "questionmark.folder.ar")
+//                    } actions: {
+//                        Spacer()
+//                        NavigationLink(destination: EditView(editNoteItem: nil)) {
+//                            //                        Button("随便记一下") {
+//                            //                            // TODO: add note
+//                            //                        }
+//                            //                        .buttonStyle(.borderedProminent)
+//                            Text("随便记一下")
+//                                .padding()
+//                                .background(Color.blue)
+//                                .foregroundColor(.white)
+//                                .cornerRadius(8)
+//                        }
+//                    }
                 } else {
                     List(noteList, id: \.id) { item in
-                        var newTitle = item.title.isEmpty ? "[空白]" : item.title
+                        let newTitle = item.title.isEmpty ? "[空白]" : item.title
                         NavigationLink(destination: EditView(editNoteItem: item)) {
                             Text(newTitle)
 
@@ -62,43 +64,9 @@ struct HomeView: View {
                 }
             }.onAppear {
                 noteList = NoteService().getNoteList()
+                print(noteList)
             }
         }
-    }
-
-    // 2. 删除
-    func deletedTodoItem(_ indexSet: IndexSet) {
-        for index in indexSet {
-            let noteItem = noteList[index]
-            // context.delete(noteItem)
-        }
-    }
-}
-
-struct EmptyView: View {
-    @State var image: UIImage?
-    var body: some View {
-        VStack {
-            if image != nil {
-                Image(uiImage: image!)
-                    .resizable() // 允许图片可调整大小
-                    .scaledToFit() // 图片将等比缩放以适应框架
-                    .frame(width: 120, height: 120) // 设置视图框架的大小
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // 设置圆角矩形形状
-                    .shadow(radius: 5) // 添加阴影以增强效果
-            } else {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-            }
-            Text(AppUtil().getAppName())
-        }
-        .onAppear {
-            if let appIcon = AppUtil().getAppIconImage() {
-                image = appIcon
-            }
-        }
-        .padding()
     }
 }
 
