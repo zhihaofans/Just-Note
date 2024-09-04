@@ -9,7 +9,6 @@ import SwiftUtils
 
 struct HomeView: View {
     @State private var noteList: [NoteItemModel] = []
-    @State private var hasPaste = false
     // 默认排序方式
     // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
@@ -49,7 +48,7 @@ struct HomeView: View {
 //                    }
                 } else {
                     List(noteList, id: \.id) { item in
-                        let newTitle = item.title.isEmpty ? "[空白]" : item.title
+                        let newTitle = item.text.isEmpty ? "[空白]" : item.text
                         NavigationLink(destination: EditView(editNoteItem: item)) {
                             DoubleTextItemView(title: newTitle, subTitle: DateUtil().timestampToTimeStr(timestampInt: item.create_time), text: TimeService().timestampToShortChinese(timestamp: item.create_time))
 //                            Text(newTitle)
@@ -76,9 +75,12 @@ struct HomeView: View {
                     }
                 }
             }.onAppear {
+                if SettingService().getClearNoteNextOpen() {
+                    NoteService().removeAllNote()
+                    SettingService().setClearNoteNextOpen(value: false)
+                }
                 noteList = NoteService().getNoteList()
                 print(noteList)
-                hasPaste = ClipboardUtil().hasString()
             }
         }
     }

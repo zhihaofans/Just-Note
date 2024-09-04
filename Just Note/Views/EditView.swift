@@ -20,14 +20,14 @@ struct EditView: View {
         }
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, title: "", desc: "", type: "", version: 1, create_time: time, update_time: time)
+        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time)
     }
 
     var body: some View {
         VStack {
             Form {
                 // TODO: 修改
-                TextField("标题:", text: $noteItem.title)
+                TextField("标题:", text: $noteItem.text)
                     .focused($isFocused) // 绑定 TextField 的焦点状态
                 Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time))
                 Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
@@ -71,7 +71,7 @@ struct EditView: View {
             Text("删了就找不回了！")
         }.onAppear {
             if isNew && SettingService().getAutoPasteMode() {
-                noteItem.title = ClipboardUtil().getString()
+                noteItem.text = ClipboardUtil().getString()
             }
             // 视图出现时自动聚焦到 TextField
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

@@ -11,6 +11,7 @@ import SwiftUtils
 private class SettingNDIdList {
     let auto_paste_in_edit = "auto_paste_in_edit"
     let show_keyboard_in_edit = "show_keyboard_in_edit"
+    let clear_note_items_when_next_open = "clear_note_items_when_next_open"
 }
 
 class SettingService {
@@ -31,5 +32,13 @@ class SettingService {
 
     func getShowKeyboardMode() -> Bool {
         return UDUtil.getBool(key: UDids.show_keyboard_in_edit) ?? false
+    }
+
+    func setClearNoteNextOpen(value: Bool) {
+        UDUtil.setBool(key: UDids.clear_note_items_when_next_open, value: value)
+    }
+
+    func getClearNoteNextOpen() -> Bool {
+        return UDUtil.getBool(key: UDids.clear_note_items_when_next_open) ?? false
     }
 }

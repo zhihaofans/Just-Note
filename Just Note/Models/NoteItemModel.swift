@@ -10,7 +10,7 @@ import SwiftData
 
 struct NoteItemModel: Codable {
     var id: String
-    var title: String
+    var text: String
     var desc: String
     var type: String
     var version: Int

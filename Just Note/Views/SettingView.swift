@@ -9,9 +9,22 @@ import SwiftUI
 
 import SwiftUtils
 
+// private class SettingData {
+//    @State var isAutoPaste = false
+//    @State var isAutoKeyboard = false
+//    @State var clearNoteNextOpen = false
+//    init(isAutoPaste: Bool = false, isAutoKeyboard: Bool = false, clearNoteNextOpen: Bool = false) {
+//        self.isAutoPaste = isAutoPaste
+//        self.isAutoKeyboard = isAutoKeyboard
+//        self.clearNoteNextOpen = clearNoteNextOpen
+//    }
+// }
+
 struct SettingView: View {
     @State private var isAutoPaste = false
     @State private var isAutoKeyboard = false
+    @State private var clearNoteNextOpen = false
+//    @State private var setData = SettingData()
     private let setSerivce = SettingService()
     var body: some View {
         NavigationView {
@@ -38,24 +51,33 @@ struct SettingView: View {
                         Toggle(isOn: $isAutoKeyboard) {
                             Text("新增/编辑时自动弹出键盘")
                         }
+                        Toggle(isOn: $clearNoteNextOpen) {
+                            Text("下次启动清空数据")
+                        }
                     }
                 }
             }.onAppear {
                 isAutoPaste = setSerivce.getAutoPasteMode()
                 isAutoKeyboard = setSerivce.getShowKeyboardMode()
+                clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
             }.navigationTitle("更多")
                 .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
-                            setSerivce.setAutoPasteMode(value: isAutoPaste)
-                            setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
+                            saveSetting()
                         }) {
                             Image(systemName: "square.and.arrow.down")
                         }
                     }
                 }
         }
+    }
+
+    private func saveSetting() {
+        setSerivce.setAutoPasteMode(value: isAutoPaste)
+        setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
+        setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
     }
 }
 
