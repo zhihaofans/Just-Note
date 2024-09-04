@@ -20,6 +20,27 @@ struct SimpleTextItemView: View {
     }
 }
 
+struct DoubleTextItemView: View {
+    var title: String
+    var subTitle: String
+    var text: String
+
+    var body: some View {
+        HStack {
+            VStack {
+                Text(title)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Text(text)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.gray)
+            }
+            Spacer()
+            //Text(text).foregroundColor(.gray)
+        }
+    }
+}
 struct iconAndTextItemView: View {
     var title: String
     var icon: String

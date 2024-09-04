@@ -11,9 +11,9 @@ import SwiftUtils
 struct EditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var noteItem: NoteItemModel
-    @State private var viewTitle = "记点啥"
     @State private var isNew = true
     @State private var isShowAlert = false
+    @FocusState private var isFocused: Bool
     init(editNoteItem: NoteItemModel?) {
         if editNoteItem != nil {
             isNew = false
@@ -28,6 +28,7 @@ struct EditView: View {
             Form {
                 // TODO: 修改
                 TextField("标题:", text: $noteItem.title)
+                    .focused($isFocused) // 绑定 TextField 的焦点状态
                 Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time))
                 Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
             }
@@ -37,7 +38,7 @@ struct EditView: View {
 //                Text("保存").font(.title)
 //            }
         }
-        .navigationTitle($viewTitle)
+        .navigationTitle("记点啥")
         .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
         .toolbar {
             if !isNew {
@@ -62,6 +63,7 @@ struct EditView: View {
                 NoteService().removeNote(id: noteItem.id)
                 presentationMode.wrappedValue.dismiss() // 退出当前视图
             })
+
             Button("NO", action: {
                 isShowAlert = false
             })
@@ -71,6 +73,10 @@ struct EditView: View {
             if isNew && SettingService().getAutoPasteMode() {
                 noteItem.title = ClipboardUtil().getString()
             }
+            // 视图出现时自动聚焦到 TextField
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isFocused = SettingService().getShowKeyboardMode()
+            }
         }
     }
 
@@ -79,6 +85,7 @@ struct EditView: View {
         noteItem.update_time = DateUtil().getTimestamp()
         let saveRe = NoteService().updateNote(noteItem: noteItem)
         print(saveRe)
+        isNew = false
     }
 }
 

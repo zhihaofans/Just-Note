@@ -11,6 +11,7 @@ import SwiftUtils
 
 struct SettingView: View {
     @State private var isAutoPaste = false
+    @State private var isAutoKeyboard = false
     private let setSerivce = SettingService()
     var body: some View {
         NavigationView {
@@ -34,22 +35,26 @@ struct SettingView: View {
                         Toggle(isOn: $isAutoPaste) {
                             Text("新增自动粘贴")
                         }
+                        Toggle(isOn: $isAutoKeyboard) {
+                            Text("新增/编辑时自动弹出键盘")
+                        }
                     }
                 }
             }.onAppear {
                 isAutoPaste = setSerivce.getAutoPasteMode()
-            }
-            .navigationTitle("更多")
-            .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        setSerivce.setAutoPasteMode(value: isAutoPaste)
-                    }) {
-                        Image(systemName: "square.and.arrow.down")
+                isAutoKeyboard = setSerivce.getShowKeyboardMode()
+            }.navigationTitle("更多")
+                .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            setSerivce.setAutoPasteMode(value: isAutoPaste)
+                            setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
+                        }) {
+                            Image(systemName: "square.and.arrow.down")
+                        }
                     }
                 }
-            }
         }
     }
 }

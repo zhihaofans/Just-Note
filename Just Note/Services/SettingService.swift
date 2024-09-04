@@ -10,6 +10,7 @@ import SwiftUtils
 
 private class SettingNDIdList {
     let auto_paste_in_edit = "auto_paste_in_edit"
+    let show_keyboard_in_edit = "show_keyboard_in_edit"
 }
 
 class SettingService {
@@ -22,5 +23,13 @@ class SettingService {
 
     func getAutoPasteMode() -> Bool {
         return UDUtil.getBool(key: UDids.auto_paste_in_edit) ?? false
+    }
+
+    func setShowKeyboardMode(value: Bool) {
+        UDUtil.setBool(key: UDids.show_keyboard_in_edit, value: value)
+    }
+
+    func getShowKeyboardMode() -> Bool {
+        return UDUtil.getBool(key: UDids.show_keyboard_in_edit) ?? false
     }
 }

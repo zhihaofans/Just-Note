@@ -9,6 +9,7 @@ import SwiftUtils
 
 struct HomeView: View {
     @State private var noteList: [NoteItemModel] = []
+    @State private var hasPaste = false
     // 默认排序方式
     // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
@@ -50,7 +51,7 @@ struct HomeView: View {
                     List(noteList, id: \.id) { item in
                         let newTitle = item.title.isEmpty ? "[空白]" : item.title
                         NavigationLink(destination: EditView(editNoteItem: item)) {
-                            SimpleTextItemView(title: newTitle, detail: TimeService().timestampToShortChinese(timestamp: item.create_time))
+                            DoubleTextItemView(title: newTitle, subTitle: DateUtil().timestampToTimeStr(timestampInt: item.create_time), text: TimeService().timestampToShortChinese(timestamp: item.create_time))
 //                            Text(newTitle)
 //
 //                            Spacer()
@@ -63,13 +64,12 @@ struct HomeView: View {
             }
             .navigationTitle(AppUtil().getAppName())
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        noteList = NoteService().getNoteList()
-                    }) {
-                        Image(systemName: "arrow.clockwise")
-                    }
-                }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    NavigationLink(destination: EditView(editNoteItem: nil)) {
+//                        Image(systemName: "doc.on.clipboard")
+//                    }
+//                }
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: EditView(editNoteItem: nil)) {
                         Image(systemName: "plus")
@@ -78,6 +78,7 @@ struct HomeView: View {
             }.onAppear {
                 noteList = NoteService().getNoteList()
                 print(noteList)
+                hasPaste = ClipboardUtil().hasString()
             }
         }
     }
