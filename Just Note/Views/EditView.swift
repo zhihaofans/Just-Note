@@ -11,6 +11,7 @@ import SwiftUtils
 struct EditView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var noteItem: NoteItemModel
+    @State private var noteDate: Date
     @State private var isNew = true
     @State private var isShowAlert = false
     @FocusState private var isFocused: Bool
@@ -21,16 +22,25 @@ struct EditView: View {
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
         noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time)
+        noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
     var body: some View {
         VStack {
             Form {
                 // TODO: 修改
-                TextField("标题:", text: $noteItem.text)
-                    .focused($isFocused) // 绑定 TextField 的焦点状态
-                Text("创建时间:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.create_time))
-                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
+//                TextField("标题:", text: $noteItem.text)
+
+                TextEditor(text: $noteItem.text)
+                    .padding()
+                    .frame(height: 400) // 设置高度来容纳多行文本
+                    //.border(Color.gray, width: 1)
+                    .cornerRadius(8)
+//                    .focused($isFocused) // 绑定 TextField 的焦点状态
+                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
+                DatePicker(selection: $noteDate,
+                           displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
+//                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
             }
 //            Button(action: {
 //                saveItem()
@@ -82,6 +92,7 @@ struct EditView: View {
 
     func saveItem() {
         print("saveItem")
+        noteItem.create_time = noteDate.timestamp
         noteItem.update_time = DateUtil().getTimestamp()
         let saveRe = NoteService().updateNote(noteItem: noteItem)
         print(saveRe)
