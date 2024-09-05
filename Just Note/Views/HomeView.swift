@@ -69,11 +69,17 @@ struct HomeView: View {
 //                    }
 //                }
 
+                #if os(macOS)
+                NavigationLink(destination: EditView(editNoteItem: nil)) {
+                    Button("Save", systemImage: "square.and.arrow.down", action: {})
+                }
+                #else
                 ToolbarItem(placement: .navigationBarTrailing) {
                     NavigationLink(destination: EditView(editNoteItem: nil)) {
                         Image(systemName: "plus")
                     }
                 }
+                #endif
             }.onAppear {
                 if SettingService().getClearNoteNextOpen() {
                     NoteService().removeAllNote()

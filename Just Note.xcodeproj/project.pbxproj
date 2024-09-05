@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		266A7D7C2C8935DE00097A9F /* MultiplatformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A7D7B2C8935DE00097A9F /* MultiplatformView.swift */; };
 		26968C242C7A398D00DDE0A5 /* Just_NoteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C232C7A398D00DDE0A5 /* Just_NoteApp.swift */; };
 		26968C262C7A398D00DDE0A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26968C252C7A398D00DDE0A5 /* ContentView.swift */; };
 		26968C282C7A398E00DDE0A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26968C272C7A398E00DDE0A5 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		266A7D7B2C8935DE00097A9F /* MultiplatformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiplatformView.swift; sourceTree = "<group>"; };
 		26968C202C7A398D00DDE0A5 /* Just Note.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Just Note.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		26968C232C7A398D00DDE0A5 /* Just_NoteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Just_NoteApp.swift; sourceTree = "<group>"; };
 		26968C252C7A398D00DDE0A5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				26968C3F2C7A3D3100DDE0A5 /* ListItemView.swift */,
+				266A7D7B2C8935DE00097A9F /* MultiplatformView.swift */,
 			);
 			path = Componets;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26968C422C7A3F1C00DDE0A5 /* EditView.swift in Sources */,
+				266A7D7C2C8935DE00097A9F /* MultiplatformView.swift in Sources */,
 				26968C392C7A3B0100DDE0A5 /* SettingView.swift in Sources */,
 				269775AE2C877076009350ED /* TimeService.swift in Sources */,
 				26968C3B2C7A3B1800DDE0A5 /* MainView.swift in Sources */,

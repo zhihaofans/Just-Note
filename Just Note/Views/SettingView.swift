@@ -60,17 +60,26 @@ struct SettingView: View {
                 isAutoPaste = setSerivce.getAutoPasteMode()
                 isAutoKeyboard = setSerivce.getShowKeyboardMode()
                 clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
-            }.navigationTitle("更多")
-                .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: {
-                            saveSetting()
-                        }) {
-                            Image(systemName: "square.and.arrow.down")
-                        }
+            }
+            .toolbar {
+                #if os(macOS)
+                Button("Save", systemImage: "square.and.arrow.down", action: {
+                    saveSetting()
+                })
+                #else
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        saveSetting()
+                    }) {
+                        Image(systemName: "square.and.arrow.down")
                     }
                 }
+                #endif
+            }
+            .navigationTitle("更多")
+            #if !os(macOS)
+                .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
+            #endif
         }
     }
 
@@ -82,16 +91,30 @@ struct SettingView: View {
 }
 
 struct AppIconAndNameView: View {
+    #if os(macOS)
+    let image: NSImage
+    #else
     let image: UIImage
+    #endif
     var body: some View {
         VStack(alignment: .center) {
             // Text(s)
+            #if os(macOS)
+            Image(nsImage: image)
+                .resizable() // 允许图片可调整大小
+                .scaledToFit() // 图片将等比缩放以适应框架
+                .frame(width: 120, height: 120) // 设置视图框架的大小
+                .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // 设置圆角矩形形状
+                .shadow(radius: 5) // 添加阴影以增强效果
+            #else
             Image(uiImage: image)
                 .resizable() // 允许图片可调整大小
                 .scaledToFit() // 图片将等比缩放以适应框架
                 .frame(width: 120, height: 120) // 设置视图框架的大小
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // 设置圆角矩形形状
                 .shadow(radius: 5) // 添加阴影以增强效果
+            #endif
+
             // .overlay(Circle().stroke(Color.gray, lineWidth: 4)) // 可选的白色边框
 //                .aspectRatio(contentMode: .fit)
 //                .frame(width: 100, height: 100)
