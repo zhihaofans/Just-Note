@@ -24,6 +24,7 @@ struct SettingView: View {
     @State private var isAutoPaste = false
     @State private var isAutoKeyboard = false
     @State private var clearNoteNextOpen = false
+    @State private var isAutoSave = false
 //    @State private var setData = SettingData()
     private let setSerivce = SettingService()
     var body: some View {
@@ -50,6 +51,9 @@ struct SettingView: View {
                         }
                         Toggle(isOn: $isAutoKeyboard) {
                             Text("新增/编辑时自动弹出键盘")
+                        }
+                        Toggle(isOn: $isAutoSave) {
+                            Text("自动保存")
                         }
                         Toggle(isOn: $clearNoteNextOpen) {
                             Text("下次启动清空数据")
