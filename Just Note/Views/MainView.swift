@@ -43,15 +43,6 @@ struct MainView: View {
     }
 }
 
-struct LabView: View {
-    var body: some View {
-        VStack {
-            Image(systemName: "flask")
-            Text("实验室装修中...")
-        }
-    }
-}
-
 #Preview {
     MainView()
 }

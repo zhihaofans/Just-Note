@@ -39,6 +39,9 @@ struct SettingView: View {
                     Section(header: Text("关于")) {
                         SimpleTextItemView(title: "开发者", detail: "zhihaofans")
                         SimpleTextItemView(title: "版本号", detail: "\(AppUtil().getAppVersion()) (\(AppUtil().getAppBuild()))" /* "0.0.1" */ )
+                        NavigationLink(destination: FeatureView()) {
+                            SimpleTextItemView(title: "功能更新", detail: "点击看更新到哪了")
+                        }
                     }
                     Section(header: Text("驱动引擎")) {
                         SimpleTextItemView(title: "开发工具", detail: "强大的Xcode")
