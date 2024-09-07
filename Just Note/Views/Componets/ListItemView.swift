@@ -37,10 +37,35 @@ struct DoubleTextItemView: View {
                     .foregroundColor(.gray)
             }
             Spacer()
-            //Text(text).foregroundColor(.gray)
+            // Text(text).foregroundColor(.gray)
         }
     }
 }
+
+struct TextTagItemView: View {
+    var text: String
+    var tags: [String]
+
+    var body: some View {
+        HStack {
+            VStack {
+                Text(text)
+                    .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Text("test")
+                        .lineLimit(1)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .foregroundColor(.gray)
+//                    ForEach(tags, content: <#T##(Identifiable) -> TableRowContent#>)
+                }
+            }
+            Spacer()
+            // Text(text).foregroundColor(.gray)
+        }
+    }
+}
+
 struct iconAndTextItemView: View {
     var title: String
     var icon: String
