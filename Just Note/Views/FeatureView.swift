@@ -19,6 +19,7 @@ struct FeatureView: View {
                         SimpleTextItemView(title: "图文记录", detail: "❌")
                         SimpleTextItemView(title: "适配macOS", detail: "❌")
                         SimpleTextItemView(title: "适配iPad", detail: "❌")
+                        SimpleTextItemView(title: "支持Spotlight", detail: "❌")
                     }
                 }
             }
