@@ -11,8 +11,15 @@ struct LabView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Image(systemName: "flask")
-                Text("实验室装修中...")
+//                Image(systemName: "flask")
+//                Text("实验室装修中...")
+                List {
+                    Section(header: Text("测试功能")) {
+                        NavigationLink(destination: TagView()) {
+                            Text("标签")
+                        }
+                    }
+                }
             }
             .navigationTitle("实验室")
             #if !os(macOS)

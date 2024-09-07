@@ -16,4 +16,7 @@ struct NoteItemModel: Codable {
     var version: Int
     var create_time: Int
     var update_time: Int
+    var tags: [String]
+    var data_str: String
+    var group_id: String
 }
