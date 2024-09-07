@@ -30,6 +30,8 @@ struct EditView: View {
             Form {
                 // TODO: 修改
 //                TextField("标题:", text: $noteItem.text)
+                DatePicker(selection: $noteDate,
+                           displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
 
                 TextEditor(text: $noteItem.text)
                     .padding()
@@ -38,8 +40,6 @@ struct EditView: View {
                     .cornerRadius(8)
 //                    .focused($isFocused) // 绑定 TextField 的焦点状态
 //                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
-                DatePicker(selection: $noteDate,
-                           displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
 //                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
                 if ClipboardUtil().hasString() {
                     PasteButton(payloadType: String.self) { strings in
