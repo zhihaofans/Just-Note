@@ -48,15 +48,7 @@ struct HomeView: View {
 //                    }
                 } else {
                     List(noteList, id: \.id) { item in
-                        let newTitle = item.text.isEmpty ? "[空白]" : item.text
-                        NavigationLink(destination: EditView(editNoteItem: item)) {
-                            DoubleTextItemView(title: newTitle, subTitle: DateUtil().timestampToTimeStr(timestampInt: item.create_time), text: TimeService().timestampToShortChinese(timestamp: item.create_time))
-//                            Text(newTitle)
-//
-//                            Spacer()
-
-                            // Text(DateUtil().timestampToTimeStr(timestampInt: item.create_time))
-                        }
+                        NoteItemView(item: item)
                     }
 //                    .onDelete(perform: deletedTodoItem)
                 }

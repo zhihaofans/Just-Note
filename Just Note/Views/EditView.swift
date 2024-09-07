@@ -21,7 +21,7 @@ struct EditView: View {
         }
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time)
+        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time, tags: [], data_str: "", group_id: "")
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
@@ -33,14 +33,19 @@ struct EditView: View {
 
                 TextEditor(text: $noteItem.text)
                     .padding()
-                    .frame(height: 400) // 设置高度来容纳多行文本
-                    //.border(Color.gray, width: 1)
+                    .frame(height: 200) // 设置高度来容纳多行文本
+                    // .border(Color.gray, width: 1)
                     .cornerRadius(8)
 //                    .focused($isFocused) // 绑定 TextField 的焦点状态
-                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
+//                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
                 DatePicker(selection: $noteDate,
                            displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
 //                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
+                if ClipboardUtil().hasString() {
+                    PasteButton(payloadType: String.self) { strings in
+                        noteItem.text = strings[0]
+                    }
+                }
             }
 //            Button(action: {
 //                saveItem()
@@ -90,6 +95,12 @@ struct EditView: View {
         }
     }
 
+    func createItem() -> NoteItemModel {
+        let time = DateUtil().getTimestamp()
+        let id = UUID().uuidString
+        return NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time, tags: [], data_str: "", group_id: "")
+    }
+
     func saveItem() {
         print("saveItem")
         noteItem.create_time = noteDate.timestamp
@@ -97,6 +108,9 @@ struct EditView: View {
         let saveRe = NoteService().updateNote(noteItem: noteItem)
         print(saveRe)
         isNew = false
+        if SettingService().getExitAfterSave() {
+            presentationMode.wrappedValue.dismiss() // 退出当前视图
+        }
     }
 }
 
