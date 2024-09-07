@@ -25,6 +25,7 @@ struct SettingView: View {
     @State private var isAutoKeyboard = false
     @State private var clearNoteNextOpen = false
     @State private var isAutoSave = false
+    @State private var exitAfterSave = false
 //    @State private var setData = SettingData()
     private let setSerivce = SettingService()
     var body: some View {
@@ -58,6 +59,9 @@ struct SettingView: View {
                         Toggle(isOn: $isAutoSave) {
                             Text("自动保存")
                         }
+                        Toggle(isOn: $exitAfterSave) {
+                            Text("保存后自动退出")
+                        }
                         Toggle(isOn: $clearNoteNextOpen) {
                             Text("下次启动清空数据")
                         }
@@ -67,6 +71,8 @@ struct SettingView: View {
                 isAutoPaste = setSerivce.getAutoPasteMode()
                 isAutoKeyboard = setSerivce.getShowKeyboardMode()
                 clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
+                isAutoSave = setSerivce.getAutoSave()
+                exitAfterSave = setSerivce.getExitAfterSave()
             }
             .toolbar {
                 #if os(macOS)
@@ -94,6 +100,8 @@ struct SettingView: View {
         setSerivce.setAutoPasteMode(value: isAutoPaste)
         setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
         setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
+//        setSerivce.setAutoSave(value: isAutoSave)
+        setSerivce.setExitAfterSave(value: exitAfterSave)
     }
 }
 
