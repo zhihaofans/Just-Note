@@ -53,11 +53,10 @@ struct TextTagItemView: View {
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 HStack {
-                    Text("test")
+                    Text(tags.compactMap { "#" + $0 }.joined(separator: " , "))
                         .lineLimit(1)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.gray)
-//                    ForEach(tags, content: <#T##(Identifiable) -> TableRowContent#>)
                 }
             }
             Spacer()

@@ -13,7 +13,9 @@ struct EditView: View {
     @State private var noteItem: NoteItemModel
     @State private var noteDate: Date
     @State private var isNew = true
-    @State private var isShowAlert = false
+    @State private var isShowRemoveAlert = false
+    @State private var isShowAddTagAlert = false
+    @State private var newTag = ""
     @FocusState private var isFocused: Bool
     init(editNoteItem: NoteItemModel?) {
         if editNoteItem != nil {
@@ -46,6 +48,37 @@ struct EditView: View {
                         noteItem.text = strings[0]
                     }
                 }
+                Section(header: Text("标签")) {
+                    Button(action: {
+                        newTag = ""
+                        isShowAddTagAlert = true
+                    }) {
+                        Text("添加标签")
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+                    List(noteItem.tags, id: \.self) { tagI in
+                        Text("#" + tagI)
+                    }
+                }
+                .alert("新增标签", isPresented: $isShowAddTagAlert) {
+                    TextField("tag", text: $newTag)
+                    Button("YES", action: {
+                        debugPrint("newTag:" + newTag)
+                        if !noteItem.tags.has(newTag) {
+                            addTag(tag: newTag)
+                        }
+                    })
+
+                    Button("NO", action: {
+                        isShowAddTagAlert = false
+                    })
+                }
+//            message: {
+//                    Text("删了就找不回了！")
+//                }
             }
 //            Button(action: {
 //                saveItem()
@@ -59,7 +92,7 @@ struct EditView: View {
             if !isNew {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        isShowAlert = true
+                        isShowRemoveAlert = true
                     }) {
                         Image(systemName: "trash.fill")
                     }
@@ -73,14 +106,14 @@ struct EditView: View {
                 }
             }
         }
-        .alert("确定删除⚠️", isPresented: $isShowAlert) {
+        .alert("确定删除⚠️", isPresented: $isShowRemoveAlert) {
             Button("YES", action: {
                 NoteService().removeNote(id: noteItem.id)
                 presentationMode.wrappedValue.dismiss() // 退出当前视图
             })
 
             Button("NO", action: {
-                isShowAlert = false
+                isShowRemoveAlert = false
             })
         } message: {
             Text("删了就找不回了！")
@@ -93,6 +126,12 @@ struct EditView: View {
                 isFocused = SettingService().getShowKeyboardMode()
             }
         }
+    }
+
+    func addTag(tag: String) {
+        noteItem.tags.append(tag)
+
+        debugPrint(noteItem)
     }
 
     func createItem() -> NoteItemModel {
