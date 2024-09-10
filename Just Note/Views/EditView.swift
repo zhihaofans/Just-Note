@@ -23,7 +23,7 @@ struct EditView: View {
         }
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time, tags: [], data_str: "", group_id: "")
+        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "text", version: 1, create_time: time, update_time: time, tags: [], data_json: "", group_id: "")
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
@@ -132,12 +132,6 @@ struct EditView: View {
         noteItem.tags.append(tag)
 
         debugPrint(noteItem)
-    }
-
-    func createItem() -> NoteItemModel {
-        let time = DateUtil().getTimestamp()
-        let id = UUID().uuidString
-        return NoteItemModel(id: id, text: "", desc: "", type: "", version: 1, create_time: time, update_time: time, tags: [], data_str: "", group_id: "")
     }
 
     func saveItem() {

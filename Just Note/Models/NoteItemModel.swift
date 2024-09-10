@@ -8,6 +8,12 @@
 import Foundation
 import SwiftData
 
+class NoteItemType {
+    let TEXT="text"
+    let URL="url"
+    let IMAGE="image"
+}
+
 struct NoteItemModel: Codable {
     var id: String
     var text: String
@@ -17,6 +23,8 @@ struct NoteItemModel: Codable {
     var create_time: Int
     var update_time: Int
     var tags: [String]
-    var data_str: String
-    var group_id: String
+    var data_json: String?
+    var group_id: String?
+    var url: String?
+    var img_url: String?
 }
