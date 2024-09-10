@@ -23,14 +23,15 @@ struct EditView: View {
         }
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: "text", version: 1, create_time: time, update_time: time, tags: [], data_json: "", group_id: "")
+        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: NoteItemType().TEXT, version: 1, create_time: time, update_time: time, tags: [])
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
     var body: some View {
         VStack {
             Form {
-                // TODO: 修改
+                // TODO: 这里加个Type选择器
+                
 //                TextField("标题:", text: $noteItem.text)
                 DatePicker(selection: $noteDate,
                            displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
@@ -43,6 +44,14 @@ struct EditView: View {
 //                    .focused($isFocused) // 绑定 TextField 的焦点状态
 //                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
 //                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
+
+if $noteItem.type == NoteItemType().URL {
+    TextEditor(text: $noteItem.url)
+                    .padding()
+                    .frame(height: 200) // 设置高度来容纳多行文本
+                    // .border(Color.gray, width: 1)
+                    .cornerRadius(8)
+}
                 if ClipboardUtil().hasString() {
                     PasteButton(payloadType: String.self) { strings in
                         noteItem.text = strings[0]
