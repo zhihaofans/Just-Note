@@ -25,6 +25,6 @@ struct NoteItemModel: Codable {
     var tags: [String]
     var data_json: String?
     var group_id: String?
-    var url: String?
+    var url: String
     var img_url: String?
 }

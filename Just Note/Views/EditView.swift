@@ -16,6 +16,7 @@ struct EditView: View {
     @State private var isShowRemoveAlert = false
     @State private var isShowAddTagAlert = false
     @State private var newTag = ""
+    private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
     init(editNoteItem: NoteItemModel?) {
         if editNoteItem != nil {
@@ -23,7 +24,7 @@ struct EditView: View {
         }
         let time = DateUtil().getTimestamp()
         let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: NoteItemType().TEXT, version: 1, create_time: time, update_time: time, tags: [])
+        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: noteType.TEXT, version: 1, create_time: time, update_time: time, tags: [], url: "")
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
@@ -31,7 +32,20 @@ struct EditView: View {
         VStack {
             Form {
                 // TODO: 这里加个Type选择器
-                
+                Menu {
+                    Button(action: {
+                        noteItem.type = noteType.TEXT
+                    }) {
+                        Label("文本(text)", systemImage: "character")
+                    }
+                    Button(action: {
+                        noteItem.type = noteType.URL
+                    }) {
+                        Label("链接(url)", systemImage: "link")
+                    }
+                } label: {
+                    SimpleTextItemView(title: "类型", detail: noteItem.type)
+                }
 //                TextField("标题:", text: $noteItem.text)
                 DatePicker(selection: $noteDate,
                            displayedComponents: [.date, .hourAndMinute], label: { Text("日期") })
@@ -45,13 +59,12 @@ struct EditView: View {
 //                Text("创建时间:" + Date(timeIntervalSince1970: noteItem.create_time.toDouble).timestampToTimeStrMinute)
 //                Text("最后变动:" + DateUtil().timestampToTimeStr(timestampInt: noteItem.update_time))
 
-if $noteItem.type == NoteItemType().URL {
-    TextEditor(text: $noteItem.url)
-                    .padding()
-                    .frame(height: 200) // 设置高度来容纳多行文本
-                    // .border(Color.gray, width: 1)
-                    .cornerRadius(8)
-}
+                if noteItem.type == NoteItemType().URL {
+//                    TextEditor(text: $noteItem.url)
+                    TextField("链接", text: $noteItem.url)
+                        .autocapitalization(.none) // 禁止自动大写
+                        .keyboardType(.URL) // 使用 URL 键盘类型
+                }
                 if ClipboardUtil().hasString() {
                     PasteButton(payloadType: String.self) { strings in
                         noteItem.text = strings[0]
@@ -68,15 +81,20 @@ if $noteItem.type == NoteItemType().URL {
                     .background(Color.blue)
                     .foregroundColor(.white)
                     .cornerRadius(8)
-                    List(noteItem.tags, id: \.self) { tagI in
-                        Text("#" + tagI)
+                    ForEach(noteItem.tags, id: \.self) { tag in
+                        Text("#" + tag)
                     }
+                    .onDelete(perform: deleteTag)
+//                    List(noteItem.tags, id: \.self) { tagI in
+//                        Text("#" + tagI)
+//                    }
+//                    .onDelete(perform: deleteTag)
                 }
                 .alert("新增标签", isPresented: $isShowAddTagAlert) {
                     TextField("tag", text: $newTag)
                     Button("YES", action: {
                         debugPrint("newTag:" + newTag)
-                        if !noteItem.tags.has(newTag) {
+                        if newTag.isNotEmpty && !noteItem.tags.has(newTag) {
                             addTag(tag: newTag)
                         }
                     })
@@ -135,6 +153,10 @@ if $noteItem.type == NoteItemType().URL {
                 isFocused = SettingService().getShowKeyboardMode()
             }
         }
+    }
+
+    func deleteTag(at offsets: IndexSet) {
+        noteItem.tags.remove(atOffsets: offsets)
     }
 
     func addTag(tag: String) {
