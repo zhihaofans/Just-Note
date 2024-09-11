@@ -12,6 +12,11 @@ struct FeatureView: View {
         NavigationView {
             VStack {
                 List {
+                    Section(header: Text("All-in-one")) {
+                        SimpleTextItemView(title: "日记", detail: "❌")
+                        SimpleTextItemView(title: "提醒", detail: "❌")
+                        SimpleTextItemView(title: "收藏", detail: "❌")
+                    }
                     Section(header: Text("功能更新")) {
                         SimpleTextItemView(title: "纯文本记录", detail: "✅")
                         SimpleTextItemView(title: "链接记录", detail: "❌")

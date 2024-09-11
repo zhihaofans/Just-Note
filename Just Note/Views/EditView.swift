@@ -94,7 +94,7 @@ struct EditView: View {
                     TextField("tag", text: $newTag)
                     Button("YES", action: {
                         debugPrint("newTag:" + newTag)
-                        if newTag.isNotEmpty && !noteItem.tags.has(newTag) {
+                        if newTag.isNotEmpty, !noteItem.tags.has(newTag) {
                             addTag(tag: newTag)
                         }
                     })
