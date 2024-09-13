@@ -99,6 +99,19 @@ struct HomeView: View {
             }
         }
     }
+    private func openLink(link : String){
+        if link.isNotEmpty{
+            Task {
+                // 在这里执行耗时的任务
+                let openSu = await AppUtil().openUrl(urlString: link)
+                // 完成后，在主线程更新 UI
+                DispatchQueue.main.async {
+                    // 更新 UI
+                    print("打开app：" + openSu.string(trueStr: "Su", falseStr: "fail"))
+                }
+            }
+        }
+    }
 }
 
 #Preview {
