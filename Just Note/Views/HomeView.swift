@@ -49,24 +49,25 @@ struct HomeView: View {
                 } else {
                     List(noteList, id: \.id) { item in
                         NoteItemView(item: item)
+                            .swipeActions {
+                                Button {
+                                    // TODO: 打开链接
+                                    // deleteItem(item: item)
+                                    openLink(link: item.url)
+                                } label: {
+                                    Text("打开链接") // 自定义删除文本
+                                }
+                                .tint(.green) // 自定义删除按钮颜色
+                                //
+                                //                        Button {
+                                //                            print("Pinned \(item)")
+                                //                        } label: {
+                                //                            Text("Pin") // 自定义"Pin"操作
+                                //                        }
+                                //                        .tint(.blue) // 自定义操作颜色
+                            }
                     }
-                    .swipeActions {
-                        Button {
-                            // TODO: 打开链接
-                            // deleteItem(item: item)
 
-                        } label: {
-                            Text("打开链接") // 自定义删除文本
-                        }
-                        .tint(.green) // 自定义删除按钮颜色
-//
-//                        Button {
-//                            print("Pinned \(item)")
-//                        } label: {
-//                            Text("Pin") // 自定义"Pin"操作
-//                        }
-//                        .tint(.blue) // 自定义操作颜色
-                    }
 //                    .onDelete(perform: deletedTodoItem)
                 }
             }
@@ -99,8 +100,9 @@ struct HomeView: View {
             }
         }
     }
-    private func openLink(link : String){
-        if link.isNotEmpty{
+
+    private func openLink(link: String) {
+        if link.isNotEmpty {
             Task {
                 // 在这里执行耗时的任务
                 let openSu = await AppUtil().openUrl(urlString: link)
