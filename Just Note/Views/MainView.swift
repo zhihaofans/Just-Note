@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var selectedTab = 0
     var body: some View {
         switch selectedTab {

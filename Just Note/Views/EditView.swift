@@ -5,10 +5,12 @@
 //  Created by zzh on 2024/8/25.
 //
 
+import SwiftData
 import SwiftUI
 import SwiftUtils
 
 struct EditView: View {
+    @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
     @State private var noteItem: NoteItemModel
     @State private var noteDate: Date
@@ -16,6 +18,7 @@ struct EditView: View {
     @State private var isShowRemoveAlert = false
     @State private var isShowAddTagAlert = false
     @State private var newTag = ""
+    @State private var newTitle: String = ""
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
     init(editNoteItem: NoteItemModel?) {
@@ -163,6 +166,23 @@ struct EditView: View {
         noteItem.tags.append(tag)
 
         debugPrint(noteItem)
+    }
+
+    private func addNewTask() {
+        // 1. 确保新任务的标题不是空的
+        guard !newTitle.isEmpty else { return }
+
+        // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
+        let newTask = NoteTagDataModel(text: newTitle)
+
+        // 3. 使用 modelContext 将新任务插入到数据模型中
+        modelContext.insert(newTask)
+
+        // 4. 保存当前上下文的更改，将新任务持久化到存储中
+        try? modelContext.save()
+
+        // 5. 清空输入框，准备输入下一个任务 。这里忽略
+//        newTitle = ""
     }
 
     func saveItem() {
