@@ -14,8 +14,15 @@ struct FeatureView: View {
                 List {
                     Section(header: Text("All-in-one")) {
                         SimpleTextItemView(title: "日记", detail: "❌")
-                        SimpleTextItemView(title: "提醒", detail: "❌")
+                        SimpleTextItemView(title: "TODO", detail: "❌")
+                        SimpleTextItemView(title: "习惯打卡", detail: "❌")
                         SimpleTextItemView(title: "收藏", detail: "❌")
+                        SimpleTextItemView(title: "倒数日/正数日", detail: "❌")
+                        SimpleTextItemView(title: "身高体重等健康数据", detail: "❌")
+                        SimpleTextItemView(title: "记账", detail: "❌")
+                        SimpleTextItemView(title: "每日一言", detail: "❌")
+                        SimpleTextItemView(title: "每日一图", detail: "❌")
+                        SimpleTextItemView(title: "账号密码", detail: "❌")
                     }
                     Section(header: Text("功能更新")) {
                         SimpleTextItemView(title: "纯文本记录", detail: "✅")
