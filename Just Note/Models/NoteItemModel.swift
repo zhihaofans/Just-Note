@@ -12,6 +12,8 @@ class NoteItemType {
     let TEXT="text"
     let URL="url"
     let IMAGE="image"
+    let IMAGE_URL="image_url"
+    let PASSWORD="password"
 }
 
 struct NoteItemModel: Codable {
@@ -27,4 +29,10 @@ struct NoteItemModel: Codable {
     var group_id: String?
     var url: String
     var img_url: String?
+}
+
+struct ItemPasswordModel: Codable {
+    var user: String
+    var password: String
+    var site: String
 }
