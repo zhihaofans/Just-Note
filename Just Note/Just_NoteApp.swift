@@ -14,7 +14,7 @@ struct Just_NoteApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .modelContainer(for: NoteTagDataModel.self) // 注入模型容器
+                .modelContainer(for: NoteItemDataModel.self) // 注入模型容器
         }
     }
 }

@@ -40,7 +40,7 @@ struct ItemPasswordModel: Codable {
 // 下面是用SwiftData重构，后续可能会将[Note]词改成[纪录Log]
 // Note记录本身
 @Model
-class NoteItemDataModel: Identifiable {
+class NoteItemDataModel {
     var id: UUID
     var text: String
     var isCompleted: Bool

@@ -12,6 +12,7 @@ import SwiftUtils
 struct EditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
+    @State private var noteList = [NoteItemDataModel]()
     @State private var noteItem: NoteItemDataModel
     @State private var noteDate: Date
     @State private var isNew = true
@@ -23,7 +24,8 @@ struct EditView: View {
 //    @State private var newUrl: String = "text"
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
-    init(editNoteItem: NoteItemDataModel?) {
+    init(path: [NoteItemDataModel], editNoteItem: NoteItemDataModel?) {
+        noteList = path
         if editNoteItem != nil {
             isNew = false
         }
@@ -171,14 +173,15 @@ struct EditView: View {
 
     private func addNewTask() {
         // 1. 确保新任务的标题不是空的
-        guard !noteItem.text.isEmpty else { return }
+        // guard !noteItem.text.isEmpty else { return }
 
         // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
 //        let newTask = NoteItemDataModel(text: noteItem.text)
         print(noteItem)
         // 3. 使用 modelContext 将新任务插入到数据模型中
         modelContext.insert(noteItem)
-
+        noteList = [noteItem]
+//        isNew = false
         // 4. 保存当前上下文的更改，将新任务持久化到存储中
 //        try? modelContext.save()
         do {

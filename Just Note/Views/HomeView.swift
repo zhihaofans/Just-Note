@@ -10,13 +10,13 @@ import SwiftUtils
 
 struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
-    @Query(sort: \NoteItemDataModel.create_time) private var notes: [NoteItemDataModel]
-    @State private var noteList: [NoteItemModel] = []
+    @Query(sort: \NoteItemDataModel.create_time, order: .reverse) private var notes: [NoteItemDataModel]
+    @State private var noteList = [NoteItemDataModel]()
     // 默认排序方式
     // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $noteList) {
             VStack {
 //                if false {
                 ////                    Text("点右上角记点东西").font(.largeTitle)
@@ -84,6 +84,8 @@ struct HomeView: View {
 //                                    toggleTaskCompletion(task)
 //                                }
                     }
+                }.onAppear {
+                    print(notes.length)
                 }
 //                    .onDelete(perform: deletedTodoItem)
 //                }
@@ -102,7 +104,7 @@ struct HomeView: View {
                 }
                 #else
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: EditView(editNoteItem: nil)) {
+                    NavigationLink(destination: EditView(path: noteList, editNoteItem: nil)) {
                         Image(systemName: "plus")
                     }
                 }
