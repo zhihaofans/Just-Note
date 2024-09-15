@@ -24,7 +24,7 @@ struct EditView: View {
 //    @State private var newUrl: String = "text"
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
-    init(path: [NoteItemDataModel], editNoteItem: NoteItemDataModel?) {
+    init(path: [NoteItemDataModel], editNoteItem: NoteItemDataModel? = nil) {
         noteList = path
         if editNoteItem != nil {
             isNew = false
@@ -128,6 +128,7 @@ struct EditView: View {
                         isShowRemoveAlert = true
                     }) {
                         Image(systemName: "trash.fill")
+                            .foregroundColor(.red) // 将颜色改为红色
                     }
                 }
             }
@@ -143,6 +144,13 @@ struct EditView: View {
             Button("YES", action: {
                 // NoteService().removeNote(id: noteItem.id)
                 // TODO: 用SwiftData重构
+                modelContext.delete(noteItem)
+                do {
+                    try modelContext.save()
+                    isNew = false
+                } catch {
+                    print("Failed to delete context: \(error)")
+                }
                 presentationMode.wrappedValue.dismiss() // 退出当前视图
             })
 
