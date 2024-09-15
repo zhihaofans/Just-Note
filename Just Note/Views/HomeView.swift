@@ -110,20 +110,6 @@ struct HomeView: View {
                             }
                     }
                 }
-//                List(notes) { task in
-//                    HStack {
-//                        Text(task.text)
-//                        Spacer()
-//                        Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
-                ////                                .onTapGesture {
-                ////                                    toggleTaskCompletion(task)
-                ////                                }
-//                    }
-//                }.onAppear {
-//                    print(notes.length)
-//                }
-//                    .onDelete(perform: deletedTodoItem)
-//                }
             }
             .navigationTitle(AppUtil().getAppName())
             .toolbar {

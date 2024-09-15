@@ -41,6 +41,7 @@ struct EditView: View {
                 Menu {
                     Button(action: {
                         noteItem.type = noteType.TEXT
+                        noteItem.url = ""
                     }) {
                         Label("文本(text)", systemImage: "character")
                     }
@@ -49,6 +50,21 @@ struct EditView: View {
                     }) {
                         Label("链接(url)", systemImage: "link")
                     }
+                    Button(action: {
+                        noteItem.type = noteType.URL
+                    }) {
+                        Label("图片", systemImage: "photo.artframe")
+                    }.disabled(true)
+                    Button(action: {
+                        noteItem.type = noteType.URL
+                    }) {
+                        Label("网络图片", systemImage: "network")
+                    }.disabled(true)
+                    Button(action: {
+                        noteItem.type = noteType.URL
+                    }) {
+                        Label("TODO", systemImage: "list.bullet.clipboard")
+                    }.disabled(true)
                 } label: {
                     SimpleTextItemView(title: "类型", detail: noteItem.type)
                 }
