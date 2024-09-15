@@ -12,22 +12,23 @@ import SwiftUtils
 struct EditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
-    @State private var noteItem: NoteItemModel
+    @State private var noteItem: NoteItemDataModel
     @State private var noteDate: Date
     @State private var isNew = true
     @State private var isShowRemoveAlert = false
     @State private var isShowAddTagAlert = false
-    @State private var newTag = ""
+    @State private var newTag: String = ""
     @State private var newTitle: String = ""
+    @State private var newType: String = "text"
+    @State private var newUrl: String = "text"
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
-    init(editNoteItem: NoteItemModel?) {
+    init(editNoteItem: NoteItemDataModel?) {
         if editNoteItem != nil {
             isNew = false
         }
         let time = DateUtil().getTimestamp()
-        let id = UUID().uuidString
-        noteItem = editNoteItem ?? NoteItemModel(id: id, text: "", desc: "", type: noteType.TEXT, version: 1, create_time: time, update_time: time, tags: [], url: "")
+        noteItem = editNoteItem ?? NoteItemDataModel(text: "", create_time: time, update_time: time)
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
@@ -138,7 +139,8 @@ struct EditView: View {
         }
         .alert("确定删除⚠️", isPresented: $isShowRemoveAlert) {
             Button("YES", action: {
-                NoteService().removeNote(id: noteItem.id)
+                // NoteService().removeNote(id: noteItem.id)
+                // TODO: 用SwiftData重构
                 presentationMode.wrappedValue.dismiss() // 退出当前视图
             })
 
@@ -164,7 +166,6 @@ struct EditView: View {
 
     func addTag(tag: String) {
         noteItem.tags.append(tag)
-
         debugPrint(noteItem)
     }
 
