@@ -112,8 +112,9 @@ struct HomeView: View {
                     NoteService().removeAllNote()
                     SettingService().setClearNoteNextOpen(value: false)
                 }
-                //noteList = NoteService().getNoteList()
+                // noteList = NoteService().getNoteList()
                 print(notes)
+                manualFetchTasks()
             }
         }
     }
@@ -129,6 +130,46 @@ struct HomeView: View {
                     print("打开app：" + openSu.string(trueStr: "Su", falseStr: "fail"))
                 }
             }
+        }
+    }
+
+    private func testAddNote() {
+        // 1. 确保新任务的标题不是空的
+//        guard !noteItem.text.isEmpty else { return }
+
+        // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
+//        let newTask = NoteItemDataModel(text: noteItem.text)
+        let noteItem = NoteItemDataModel(text: "haha")
+        print(noteItem)
+        // 3. 使用 modelContext 将新任务插入到数据模型中
+        modelContext.insert(noteItem)
+
+        // 4. 保存当前上下文的更改，将新任务持久化到存储中
+//        try? modelContext.save()
+        do {
+            try modelContext.save()
+//            isNew = false
+        } catch {
+            print("Failed to save context: \(error)")
+        }
+        print(modelContext)
+        // 5. 清空输入框，准备输入下一个任务 。这里忽略
+//        newTitle = ""
+    }
+
+    // 手动查询所有任务
+    private func manualFetchTasks() {
+        // 使用 modelContext.fetch() 手动查询 Task 实体
+        let fetchRequest = FetchDescriptor<NoteItemDataModel>(sortBy: [SortDescriptor(\.create_time)])
+
+        do {
+            let tasks = try modelContext.fetch(fetchRequest)
+            print("Fetched Tasks: " + tasks.length.toString)
+            for task in tasks {
+                print("Title: \(task.text), Completed: \(task.isCompleted)")
+            }
+        } catch {
+            print("Failed to fetch tasks: \(error)")
         }
     }
 }
