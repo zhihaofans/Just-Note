@@ -9,8 +9,8 @@ import SwiftUI
 import SwiftUtils
 
 struct NoteItemView: View {
-    private let item: NoteItemModel
-    init(item: NoteItemModel) {
+    private let item: NoteItemDataModel
+    init(item: NoteItemDataModel) {
         self.item = item
     }
 

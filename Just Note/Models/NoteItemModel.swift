@@ -54,12 +54,12 @@ class NoteItemDataModel: Identifiable {
     var group_id: String?
     var url: String
     var img_url: String?
-    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "") {
+    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "text", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "") {
         self.id = id
         self.text = text
         self.isCompleted = isCompleted
         self.desc = desc
-        self.type = type
+        self.type = type.lowercased()
         self.version = version
         self.create_time = create_time
         self.update_time = update_time

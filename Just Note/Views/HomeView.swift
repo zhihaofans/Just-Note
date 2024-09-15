@@ -112,8 +112,8 @@ struct HomeView: View {
                     NoteService().removeAllNote()
                     SettingService().setClearNoteNextOpen(value: false)
                 }
-                noteList = NoteService().getNoteList()
-                print(noteList)
+                //noteList = NoteService().getNoteList()
+                print(notes)
             }
         }
     }

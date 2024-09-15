@@ -18,9 +18,9 @@ struct EditView: View {
     @State private var isShowRemoveAlert = false
     @State private var isShowAddTagAlert = false
     @State private var newTag: String = ""
-    @State private var newTitle: String = ""
-    @State private var newType: String = "text"
-    @State private var newUrl: String = "text"
+//    @State private var newTitle: String = ""
+//    @State private var newType: String = "text"
+//    @State private var newUrl: String = "text"
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
     init(editNoteItem: NoteItemDataModel?) {
@@ -28,7 +28,7 @@ struct EditView: View {
             isNew = false
         }
         let time = DateUtil().getTimestamp()
-        noteItem = editNoteItem ?? NoteItemDataModel(text: "", create_time: time, update_time: time)
+        noteItem = editNoteItem ?? NoteItemDataModel(text: "", type: "text", create_time: time, update_time: time)
         noteDate = Date(timeIntervalSince1970: time.toDouble)
     }
 
@@ -131,7 +131,7 @@ struct EditView: View {
             }
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    saveItem()
+                    addNewTask()
                 }) {
                     Image(systemName: "square.and.arrow.down")
                 }
@@ -171,32 +171,38 @@ struct EditView: View {
 
     private func addNewTask() {
         // 1. 确保新任务的标题不是空的
-        guard !newTitle.isEmpty else { return }
+        guard !noteItem.text.isEmpty else { return }
 
         // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
-        let newTask = NoteTagDataModel(text: newTitle)
-
+//        let newTask = NoteItemDataModel(text: noteItem.text)
+        print(noteItem)
         // 3. 使用 modelContext 将新任务插入到数据模型中
-        modelContext.insert(newTask)
+        modelContext.insert(noteItem)
 
         // 4. 保存当前上下文的更改，将新任务持久化到存储中
-        try? modelContext.save()
-
+//        try? modelContext.save()
+        do {
+            try modelContext.save()
+            isNew = false
+        } catch {
+            print("Failed to save context: \(error)")
+        }
+        print(modelContext)
         // 5. 清空输入框，准备输入下一个任务 。这里忽略
 //        newTitle = ""
     }
 
-    func saveItem() {
-        print("saveItem")
-        noteItem.create_time = noteDate.timestamp
-        noteItem.update_time = DateUtil().getTimestamp()
-        let saveRe = NoteService().updateNote(noteItem: noteItem)
-        print(saveRe)
-        isNew = false
-        if SettingService().getExitAfterSave() {
-            presentationMode.wrappedValue.dismiss() // 退出当前视图
-        }
-    }
+//    func saveItem() {
+//        print("saveItem")
+//        noteItem.create_time = noteDate.timestamp
+//        noteItem.update_time = DateUtil().getTimestamp()
+//        let saveRe = NoteService().updateNote(noteItem: noteItem)
+//        print(saveRe)
+//        isNew = false
+//        if SettingService().getExitAfterSave() {
+//            presentationMode.wrappedValue.dismiss() // 退出当前视图
+//        }
+//    }
 }
 
 // #Preview {
