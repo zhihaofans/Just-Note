@@ -53,17 +53,32 @@ struct SettingView: View {
                         Toggle(isOn: $isAutoPaste) {
                             Text("新增自动粘贴")
                         }
+                        .onChange(of: isAutoPaste) {
+                            setSerivce.setAutoPasteMode(value: isAutoPaste)
+                        }
+
                         Toggle(isOn: $isAutoKeyboard) {
                             Text("新增/编辑时自动弹出键盘")
+                        }.onChange(of: isAutoKeyboard) {
+                            setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
                         }
+
                         Toggle(isOn: $isAutoSave) {
                             Text("自动保存")
+                        }.onChange(of: isAutoSave) {
+                            setSerivce.setAutoSave(value: isAutoSave)
                         }
+
                         Toggle(isOn: $exitAfterSave) {
                             Text("保存后自动退出")
+                        }.onChange(of: exitAfterSave) {
+                            setSerivce.setExitAfterSave(value: exitAfterSave)
                         }
+
                         Toggle(isOn: $clearNoteNextOpen) {
                             Text("下次启动清空数据")
+                        }.onChange(of: clearNoteNextOpen) {
+                            setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
                         }
                     }
                 }
@@ -141,6 +156,6 @@ struct AppIconAndNameView: View {
     }
 }
 
-#Preview {
-    SettingView()
-}
+// #Preview {
+//    SettingView()
+// }
