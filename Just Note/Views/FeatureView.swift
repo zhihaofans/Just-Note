@@ -23,6 +23,7 @@ struct FeatureView: View {
                         SimpleTextItemView(title: "每日一言", detail: "❌")
                         SimpleTextItemView(title: "每日一图", detail: "❌")
                         SimpleTextItemView(title: "账号密码", detail: "❌")
+                        SimpleTextItemView(title: "番茄计时", detail: "❌")
                     }
                     Section(header: Text("功能更新")) {
                         SimpleTextItemView(title: "纯文本记录", detail: "✅")
