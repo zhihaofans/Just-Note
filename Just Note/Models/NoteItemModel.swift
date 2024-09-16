@@ -50,11 +50,12 @@ class NoteItemDataModel {
     var create_time: Int
     var update_time: Int
     var tags: [String]
-    var data_json: String?
-    var group_id: String?
+    var data_json: String
+    var group_id: String
     var url: String
-    var img_url: String?
-    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "text", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "") {
+    var img_url: String
+    var image: Data?
+    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "text", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "", image: Data? = nil) {
         self.id = id
         self.text = text
         self.isCompleted = isCompleted
@@ -68,6 +69,7 @@ class NoteItemDataModel {
         self.group_id = group_id
         self.url = url
         self.img_url = img_url
+        self.image = image
     }
 //    init(id: UUID = UUID(), title: String, isCompleted: Bool = false) {
 //        self.id = id
