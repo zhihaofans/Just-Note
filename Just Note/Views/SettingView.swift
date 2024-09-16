@@ -47,7 +47,7 @@ struct SettingView: View {
                     Section(header: Text("驱动引擎")) {
                         SimpleTextItemView(title: "开发工具", detail: "强大的Xcode")
                         SimpleTextItemView(title: "开发语言", detail: "先进的Swift")
-                        SimpleTextItemView(title: "数据储存", detail: "落后的UserDefaults")
+                        SimpleTextItemView(title: "数据储存", detail: "最新的SwiftData")
                     }
                     Section(header: Text("编辑")) {
                         Toggle(isOn: $isAutoPaste) {
