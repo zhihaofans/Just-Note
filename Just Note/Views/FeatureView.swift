@@ -27,8 +27,8 @@ struct FeatureView: View {
                     }
                     Section(header: Text("功能更新")) {
                         SimpleTextItemView(title: "纯文本记录", detail: "✅")
-                        SimpleTextItemView(title: "链接记录", detail: "❌")
-                        SimpleTextItemView(title: "数据重构，改用SwiftData", detail: "❌")
+                        SimpleTextItemView(title: "链接记录", detail: "✅")
+                        SimpleTextItemView(title: "数据重构，改用SwiftData", detail: "✅")
                         SimpleTextItemView(title: "图文记录", detail: "❌")
                         SimpleTextItemView(title: "适配macOS", detail: "❌")
                         SimpleTextItemView(title: "适配iPad", detail: "❌")
@@ -36,6 +36,7 @@ struct FeatureView: View {
                         SimpleTextItemView(title: "标签", detail: "✅")
                         SimpleTextItemView(title: "分组", detail: "❌")
                         SimpleTextItemView(title: "搜索", detail: "❌")
+                        SimpleTextItemView(title: "标签索引", detail: "❌")
                     }
                 }
             }
