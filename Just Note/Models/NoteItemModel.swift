@@ -55,8 +55,10 @@ class NoteItemDataModel {
     var url: String
     var img_url: String
     var image: Data?
-    var end_time: Int
-    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "text", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "", image: Data? = nil, end_time: Int = -1) {
+//    var end_time: Int //不知道为什么加了后会导致加载空白
+    init(id: UUID = UUID(), text: String, isCompleted: Bool = false, desc: String = "", type: String = "text", version: Int = 1, create_time: Int = 0, update_time: Int = 0, tags: [String] = [], data_json: String = "", group_id: String = "", url: String = "", img_url: String = "", image: Data? = nil
+//         , end_time: Int = -1
+    ) {
         self.id = id
         self.text = text
         self.isCompleted = isCompleted
@@ -71,7 +73,7 @@ class NoteItemDataModel {
         self.url = url
         self.img_url = img_url
         self.image = image
-        self.end_time = end_time
+//        self.end_time = end_time //不知道为什么加了后会导致加载空白
     }
 //    init(id: UUID = UUID(), title: String, isCompleted: Bool = false) {
 //        self.id = id

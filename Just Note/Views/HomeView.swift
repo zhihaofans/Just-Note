@@ -14,7 +14,7 @@ struct HomeView: View {
     @State private var noteList = [NoteItemDataModel]()
     // 默认排序方式
     // @State private var sortOrder = SortDescriptor(\NoteItemModel.update_time, order: .reverse)
-
+    private let noteType = NoteItemType()
     var body: some View {
         NavigationStack(path: $noteList) {
             VStack {
@@ -90,7 +90,7 @@ struct HomeView: View {
                     List(notes) { item in
                         NoteItemView(path: noteList, item: item)
                             .swipeActions {
-                                if item.type.lowercased() == "url" && item.url.isNotEmpty {
+                                if item.type.lowercased() == noteType.URL && item.url.isNotEmpty {
                                     Button {
                                         // TODO: 打开链接
                                         // deleteItem(item: item)
@@ -99,7 +99,30 @@ struct HomeView: View {
                                         Text("打开链接") // 自定义删除文本
                                     }
                                     .tint(.green) // 自定义删除按钮颜色
+                                } else if item.type.lowercased() == noteType.TEXT && item.text.isNotEmpty {
+                                    ShareLink(item: item.text) {
+//                                        Label("Share Text", systemImage: "square.and.arrow.up")
+                                        Button {
+                                            // TODO: 打开链接
+                                            // deleteItem(item: item)
+//                                                openLink(link: item.url)
+                                        } label: {
+                                            Text("分享文本") // 自定义删除文本
+                                        }
+                                    }
                                 }
+//                                else if item.type.lowercased() == noteType.IMAGE && item.image != nil, let uimage = UIImage(data: item.image!) {
+//                                    ShareLink(item: uimage) {
+////                                        Label("Share Text", systemImage: "square.and.arrow.up")
+//                                        Button {
+//                                            // TODO: 打开链接
+//                                            // deleteItem(item: item)
+////                                                openLink(link: item.url)
+//                                        } label: {
+//                                            Text("分享图片") // 自定义删除文本
+//                                        }
+//                                    }
+//                                }
                                 //
                                 //                        Button {
                                 //                            print("Pinned \(item)")
