@@ -46,23 +46,31 @@ struct FenciView: View {
     }
 
     var body: some View {
-        Menu {
-            Button(action: {
-                fenciUnit = .word
-                fenciUnitTitle = "按单词分词"
-            }) {
-                Label("按单词分词", systemImage: "character")
+        NavigationView {
+            VStack {
+                Menu {
+                    Button(action: {
+                        fenciUnit = .word
+                        fenciUnitTitle = "按单词分词"
+                    }) {
+                        Label("按单词分词", systemImage: "character")
+                    }
+                } label: {
+                    SimpleTextItemView(title: "分词类型", detail: fenciUnitTitle)
+                }
+                TextField("Placeholder", text: $inputText)
+                    .onChange(of: inputText) {
+                        textList = fenci(inputText)
+                    }
+                List(textList, id: \.self) {
+                    Text($0)
+                }
             }
-        } label: {
-            SimpleTextItemView(title: "分词类型", detail: fenciUnitTitle)
         }
-        TextField("Placeholder", text: $inputText)
-            .onChange(of: inputText) {
-                textList = fenci(inputText)
-            }
-        List(textList, id: \.self) {
-            Text($0)
-        }
+        .navigationTitle("文本分词")
+        #if !os(macOS)
+            .navigationBarTitleDisplayMode(.inline) // 标题保持较小尺寸，始终在导航栏中显示
+        #endif
     }
 
     private func fenci(_ text: String) -> [String] {
