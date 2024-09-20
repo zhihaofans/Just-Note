@@ -113,11 +113,11 @@ struct HomeView: View {
                                 }
 //                                else if item.type.lowercased() == noteType.IMAGE && item.image != nil, let uimage = UIImage(data: item.image!) {
 //                                    ShareLink(item: uimage) {
-////                                        Label("Share Text", systemImage: "square.and.arrow.up")
+                                ////                                        Label("Share Text", systemImage: "square.and.arrow.up")
 //                                        Button {
 //                                            // TODO: 打开链接
 //                                            // deleteItem(item: item)
-////                                                openLink(link: item.url)
+                                ////                                                openLink(link: item.url)
 //                                        } label: {
 //                                            Text("分享图片") // 自定义删除文本
 //                                        }
