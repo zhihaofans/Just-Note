@@ -25,7 +25,7 @@ class SettingService {
     }
 
     func getAutoPasteMode() -> Bool {
-        return UDUtil.getBool(key: UDids.auto_paste_in_edit) ?? false
+        return UDUtil.getBool(UDids.auto_paste_in_edit) ?? false
     }
 
     func setShowKeyboardMode(value: Bool) {
@@ -33,7 +33,7 @@ class SettingService {
     }
 
     func getShowKeyboardMode() -> Bool {
-        return UDUtil.getBool(key: UDids.show_keyboard_in_edit) ?? false
+        return UDUtil.getBool(UDids.show_keyboard_in_edit) ?? false
     }
 
     func setClearNoteNextOpen(value: Bool) {
@@ -41,7 +41,7 @@ class SettingService {
     }
 
     func getClearNoteNextOpen() -> Bool {
-        return UDUtil.getBool(key: UDids.clear_note_items_when_next_open) ?? false
+        return UDUtil.getBool( UDids.clear_note_items_when_next_open) ?? false
     }
 
     func setAutoSave(value: Bool) {
@@ -49,7 +49,7 @@ class SettingService {
     }
 
     func getAutoSave() -> Bool {
-        return UDUtil.getBool(key: UDids.auto_save) ?? false
+        return UDUtil.getBool(UDids.auto_save) ?? false
     }
 
     func setExitAfterSave(value: Bool) {
@@ -57,6 +57,6 @@ class SettingService {
     }
 
     func getExitAfterSave() -> Bool {
-        return UDUtil.getBool(key: UDids.exit_after_save) ?? false
+        return UDUtil.getBool(UDids.exit_after_save) ?? false
     }
 }

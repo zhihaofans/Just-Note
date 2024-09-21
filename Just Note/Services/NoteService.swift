@@ -17,7 +17,7 @@ class NoteService {
     private let UDids = NoteNDIdList()
     init() {}
     func getNoteList() -> [NoteItemModel] {
-        let itemJsonList = UDUtil.getArrayString(key: UDids.note_item_list)
+        let itemJsonList = UDUtil.getArrayString( UDids.note_item_list)
         let itemList = itemJsonList.compactMap {
             try? JSONDecoder().decode(NoteItemModel.self, from: $0.data(using: .utf8)!)
         }
@@ -51,7 +51,7 @@ class NoteService {
     }
 
     func removeAllNote() {
-        UDUtil.remove(key: UDids.note_item_list)
+        UDUtil.remove(UDids.note_item_list)
     }
 
     func updateNote(noteItem: NoteItemModel) -> Bool {

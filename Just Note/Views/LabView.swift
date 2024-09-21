@@ -7,7 +7,7 @@
 
 import NaturalLanguage
 import SwiftUI
-
+import SwiftUtils
 struct LabView: View {
     var body: some View {
         NavigationView {
@@ -60,7 +60,7 @@ struct FenciView: View {
                 }
                 TextField("Placeholder", text: $inputText)
                     .onChange(of: inputText) {
-                        textList = fenci(inputText)
+                        textList = FenciUtil(fenciUnit).fenci(inputText)
                     }
                 List(textList, id: \.self) {
                     Text($0)

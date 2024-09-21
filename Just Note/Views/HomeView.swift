@@ -169,7 +169,7 @@ struct HomeView: View {
         if link.isNotEmpty {
             Task {
                 // 在这里执行耗时的任务
-                let openSu = await AppUtil().openUrl(urlString: link)
+                let openSu = await AppUtil().openUrl(link)
                 // 完成后，在主线程更新 UI
                 DispatchQueue.main.async {
                     // 更新 UI
