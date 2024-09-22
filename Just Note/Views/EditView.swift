@@ -9,6 +9,8 @@ import SwiftData
 import SwiftUI
 import SwiftUtils
 
+import PhotosUI
+
 struct EditView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.presentationMode) var presentationMode
@@ -19,6 +21,9 @@ struct EditView: View {
     @State private var isShowRemoveAlert = false
     @State private var isShowAddTagAlert = false
     @State private var newTag: String = ""
+    @State private var showingImagePicker = false
+    @State private var image: UIImage?
+    @State private var imageData: Data?
 //    @State private var newTitle: String = ""
 //    @State private var newType: String = "text"
 //    @State private var newUrl: String = "text"
@@ -51,10 +56,10 @@ struct EditView: View {
                         Label("链接(url)", systemImage: "link")
                     }
                     Button(action: {
-                        noteItem.type = noteType.URL
+                        noteItem.type = noteType.IMAGE
                     }) {
                         Label("图片", systemImage: "photo.artframe")
-                    }.disabled(true)
+                    } // .disabled(true)
                     Button(action: {
                         noteItem.type = noteType.URL
                     }) {
@@ -86,6 +91,27 @@ struct EditView: View {
                     TextField("链接", text: $noteItem.url)
                         .autocapitalization(.none) // 禁止自动大写
                         .keyboardType(.URL) // 使用 URL 键盘类型
+                }
+                if noteItem.type == NoteItemType().IMAGE {
+                    Section(header: Text("标签")) {
+                        Button(action: {
+                            showingImagePicker = true
+                        }) {
+                            Text("选择图片")
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                        if noteItem.image != nil, let imageData = noteItem.image, let image = UIImage(data: imageData) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 200, height: 200)
+                                .padding()
+                        }
+                    }
+                    .sheet(isPresented: $showingImagePicker) {}
                 }
                 if ClipboardUtil().hasString() {
                     PasteButton(payloadType: String.self) { strings in

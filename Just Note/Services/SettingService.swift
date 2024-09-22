@@ -41,7 +41,7 @@ class SettingService {
     }
 
     func getClearNoteNextOpen() -> Bool {
-        return UDUtil.getBool( UDids.clear_note_items_when_next_open) ?? false
+        return UDUtil.getBool(UDids.clear_note_items_when_next_open) ?? false
     }
 
     func setAutoSave(value: Bool) {
