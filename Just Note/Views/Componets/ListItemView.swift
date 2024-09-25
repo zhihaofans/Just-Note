@@ -64,6 +64,7 @@ struct TextTagItemView: View {
         }
     }
 }
+
 struct TextTagImageItemView: View {
     var text: String
     var tags: [String]
@@ -81,12 +82,7 @@ struct TextTagImageItemView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .foregroundColor(.gray)
                 }
-                Image(data: image_data)
-                    .resizable() // 允许图片可调整大小
-                    .scaledToFit() // 图片将等比缩放以适应框架
-                    .frame(width: 120, height: 120) // 设置视图框架的大小
-                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous)) // 设置圆角矩形形状
-                    .shadow(radius: 5) // 添加阴影以增强效果
+                if let uIImage = UIImage(data: image_data) {}
             }
             Spacer()
             // Text(text).foregroundColor(.gray)
