@@ -5,11 +5,10 @@
 //  Created by zzh on 2024/8/25.
 //
 
+import PhotosUI
 import SwiftData
 import SwiftUI
 import SwiftUtils
-
-import PhotosUI
 
 struct EditView: View {
     @Environment(\.modelContext) private var modelContext
@@ -29,6 +28,8 @@ struct EditView: View {
 //    @State private var newUrl: String = "text"
     private let noteType = NoteItemType()
     @FocusState private var isFocused: Bool
+    @State private var pickerResult: [PHPickerResult] = []
+    @State private var isPickerPresented = false
     init(path: [NoteItemDataModel], editNoteItem: NoteItemDataModel? = nil) {
         noteList = path
         if editNoteItem != nil {
@@ -93,16 +94,18 @@ struct EditView: View {
                         .keyboardType(.URL) // 使用 URL 键盘类型
                 }
                 if noteItem.type == NoteItemType().IMAGE {
-                    Section(header: Text("标签")) {
-                        Button(action: {
-                            showingImagePicker = true
-                        }) {
-                            Text("选择图片")
+                    Section(header: Text("图片")) {
+                        Button("选择照片") {
+                            pickerResult = []
+                            isPickerPresented = true
                         }
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(8)
+                        .sheet(isPresented: $isPickerPresented) {
+                            PhotoPicker(pickerResult: $pickerResult, isPresented: $isPickerPresented)
+                        }
                         if noteItem.image != nil, let imageData = noteItem.image, let image = UIImage(data: imageData) {
                             Image(uiImage: image)
                                 .resizable()
@@ -110,8 +113,11 @@ struct EditView: View {
                                 .frame(width: 200, height: 200)
                                 .padding()
                         }
+                        // 显示选择的图片（如果有的话）
+                        if let firstItem = pickerResult.first {
+                            PhotoThumbnail(photoItem: firstItem)
+                        }
                     }
-                    .sheet(isPresented: $showingImagePicker) {}
                 }
                 if ClipboardUtil().hasString() {
                     PasteButton(payloadType: String.self) { strings in
@@ -256,6 +262,66 @@ struct EditView: View {
 //            presentationMode.wrappedValue.dismiss() // 退出当前视图
 //        }
 //    }
+}
+
+struct PhotoThumbnail: View {
+    let photoItem: PHPickerResult
+    @State private var uiImage: UIImage?
+
+    var body: some View {
+        Image(uiImage: uiImage ?? UIImage())
+            .resizable()
+            .scaledToFit()
+            .onAppear {
+                loadImage()
+            }
+    }
+
+    private func loadImage() {
+        guard uiImage == nil else { return }
+
+        photoItem.itemProvider.loadObject(ofClass: UIImage.self) { image, _ in
+            if let uiImage = image as? UIImage {
+                DispatchQueue.main.async {
+                    self.uiImage = uiImage
+                }
+            }
+        }
+    }
+}
+
+struct PhotoPicker: UIViewControllerRepresentable {
+    @Binding var pickerResult: [PHPickerResult]
+    @Binding var isPresented: Bool
+
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 1 // 可以根据需要调整
+        config.filter = .images // 只选取图片
+
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        var parent: PhotoPicker
+
+        init(_ parent: PhotoPicker) {
+            self.parent = parent
+        }
+
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            parent.pickerResult = results
+            parent.isPresented = false
+        }
+    }
 }
 
 // #Preview {
