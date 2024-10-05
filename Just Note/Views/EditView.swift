@@ -60,7 +60,7 @@ struct EditView: View {
                         noteItem.type = noteType.IMAGE
                     }) {
                         Label("图片", systemImage: "photo.artframe")
-                    } // .disabled(true)
+                    }.disabled(true)
                     Button(action: {
                         noteItem.type = noteType.URL
                     }) {
@@ -89,9 +89,19 @@ struct EditView: View {
 
                 if noteItem.type == NoteItemType().URL {
 //                    TextEditor(text: $noteItem.url)
-                    TextField("链接", text: $noteItem.url)
-                        .autocapitalization(.none) // 禁止自动大写
-                        .keyboardType(.URL) // 使用 URL 键盘类型
+                    TextField("链接", text: $noteItem.url, onEditingChanged: { isEditing in
+                        if !isEditing {
+                            // 当编辑结束时执行
+                            print("编辑结束: \(noteItem.url)")
+                            self.checkUrl()
+                        }
+                    }, onCommit: {
+                        // 提交动作，如按下键盘的完成按钮
+                        print("提交输入: \(noteItem.url)")
+                        self.checkUrl()
+                    })
+                    .autocapitalization(.none) // 禁止自动大写
+                    .keyboardType(.URL) // 使用 URL 键盘类型
                 }
                 if noteItem.type == NoteItemType().IMAGE {
                     Section(header: Text("图片")) {
@@ -106,24 +116,24 @@ struct EditView: View {
                         .sheet(isPresented: $isPickerPresented) {
                             PhotoPicker(pickerResult: $pickerResult, isPresented: $isPickerPresented)
                         }
-                        if noteItem.image != nil, let imageData = noteItem.image, let image = UIImage(data: imageData) {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 200, height: 200)
-                                .padding()
-                        }
+//                        if noteItem.image != nil, let imageData = noteItem.image, let image = UIImage(data: imageData) {
+//                            Image(uiImage: image)
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 200, height: 200)
+//                                .padding()
+//                        }
                         // 显示选择的图片（如果有的话）
                         if let firstItem = pickerResult.first {
-                            PhotoThumbnail(photoItem: firstItem)
+                            PhotoThumbnail(photoItem: firstItem, uiImage: $image)
                         }
                     }
                 }
-                if ClipboardUtil().hasString() {
-                    PasteButton(payloadType: String.self) { strings in
-                        noteItem.text = strings[0]
-                    }
-                }
+//                if ClipboardUtil().hasString() {
+//                    PasteButton(payloadType: String.self) { strings in
+//                        noteItem.text = strings[0]
+//                    }
+//                }
                 Section(header: Text("标签")) {
                     Button(action: {
                         newTag = ""
@@ -233,6 +243,7 @@ struct EditView: View {
 
         // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
 //        let newTask = NoteItemDataModel(text: noteItem.text)
+        noteItem.image = image?.heicData()
         print(noteItem)
         // 3. 使用 modelContext 将新任务插入到数据模型中
         modelContext.insert(noteItem)
@@ -251,6 +262,14 @@ struct EditView: View {
 //        newTitle = ""
     }
 
+    private func checkUrl() {
+        if noteItem.text.isEmpty && noteItem.url.isNotEmpty {
+            if noteItem.url.isUrl {
+            } else {
+                noteItem.text = "[错误链接]"
+            }
+        }
+    }
 //    func saveItem() {
 //        print("saveItem")
 //        noteItem.create_time = noteDate.timestamp
@@ -266,7 +285,7 @@ struct EditView: View {
 
 struct PhotoThumbnail: View {
     let photoItem: PHPickerResult
-    @State private var uiImage: UIImage?
+    @Binding var uiImage: UIImage?
 
     var body: some View {
         Image(uiImage: uiImage ?? UIImage())
