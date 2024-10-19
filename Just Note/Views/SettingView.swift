@@ -21,11 +21,11 @@ import SwiftUtils
 // }
 
 struct SettingView: View {
-    @State private var isAutoPaste = false
-    @State private var isAutoKeyboard = false
-    @State private var clearNoteNextOpen = false
-    @State private var isAutoSave = false
-    @State private var exitAfterSave = false
+    @AppStorage("auto_paste_in_edit") private var isAutoPaste = false
+    @AppStorage("show_keyboard_in_edit") private var isAutoKeyboard = false
+    @AppStorage("clear_note_items_when_next_open") private var clearNoteNextOpen = false
+    @AppStorage("auto_save") private var isAutoSave = false
+    @AppStorage("exit_after_save") private var exitAfterSave = false
 //    @State private var setData = SettingData()
     private let setSerivce = SettingService()
     var body: some View {
@@ -83,11 +83,11 @@ struct SettingView: View {
                     }
                 }
             }.onAppear {
-                isAutoPaste = setSerivce.getAutoPasteMode()
-                isAutoKeyboard = setSerivce.getShowKeyboardMode()
-                clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
-                isAutoSave = setSerivce.getAutoSave()
-                exitAfterSave = setSerivce.getExitAfterSave()
+//                isAutoPaste = setSerivce.getAutoPasteMode()
+//                isAutoKeyboard = setSerivce.getShowKeyboardMode()
+//                clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
+//                isAutoSave = setSerivce.getAutoSave()
+//                exitAfterSave = setSerivce.getExitAfterSave()
             }
             .toolbar {
                 #if os(macOS)
@@ -112,11 +112,12 @@ struct SettingView: View {
     }
 
     private func saveSetting() {
-        setSerivce.setAutoPasteMode(value: isAutoPaste)
-        setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
-        setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
-//        setSerivce.setAutoSave(value: isAutoSave)
-        setSerivce.setExitAfterSave(value: exitAfterSave)
+        // 改用@AppStorage
+//        setSerivce.setAutoPasteMode(value: isAutoPaste)
+//        setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
+//        setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
+        //        setSerivce.setAutoSave(value: isAutoSave)
+//        setSerivce.setExitAfterSave(value: exitAfterSave)
     }
 }
 
