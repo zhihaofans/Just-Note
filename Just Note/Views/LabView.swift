@@ -8,6 +8,7 @@
 import NaturalLanguage
 import SwiftUI
 import SwiftUtils
+
 struct LabView: View {
     var body: some View {
         NavigationView {

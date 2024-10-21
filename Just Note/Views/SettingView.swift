@@ -27,7 +27,7 @@ struct SettingView: View {
     @AppStorage("auto_save") private var isAutoSave = false
     @AppStorage("exit_after_save") private var exitAfterSave = false
 //    @State private var setData = SettingData()
-    private let setSerivce = SettingService()
+//    private let setSerivce = SettingService()
     var body: some View {
         NavigationView {
             VStack {
@@ -53,36 +53,41 @@ struct SettingView: View {
                         Toggle(isOn: $isAutoPaste) {
                             Text("新增自动粘贴")
                         }
-                        .onChange(of: isAutoPaste) {
-                            setSerivce.setAutoPasteMode(value: isAutoPaste)
-                        }
+//                        .onChange(of: isAutoPaste) {
+//                            setSerivce.setAutoPasteMode(value: isAutoPaste)
+//                        }
 
                         Toggle(isOn: $isAutoKeyboard) {
                             Text("新增/编辑时自动弹出键盘")
-                        }.onChange(of: isAutoKeyboard) {
-                            setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
                         }
+//                        .onChange(of: isAutoKeyboard) {
+//                            setSerivce.setShowKeyboardMode(value: isAutoKeyboard)
+//                        }
 
                         Toggle(isOn: $isAutoSave) {
                             Text("自动保存")
-                        }.onChange(of: isAutoSave) {
-                            setSerivce.setAutoSave(value: isAutoSave)
                         }
+//                        .onChange(of: isAutoSave) {
+//                            setSerivce.setAutoSave(value: isAutoSave)
+//                        }
 
                         Toggle(isOn: $exitAfterSave) {
                             Text("保存后自动退出")
-                        }.onChange(of: exitAfterSave) {
-                            setSerivce.setExitAfterSave(value: exitAfterSave)
                         }
+//                        .onChange(of: exitAfterSave) {
+//                            setSerivce.setExitAfterSave(value: exitAfterSave)
+//                        }
 
                         Toggle(isOn: $clearNoteNextOpen) {
                             Text("下次启动清空数据")
-                        }.onChange(of: clearNoteNextOpen) {
-                            setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
                         }
+//                        .onChange(of: clearNoteNextOpen) {
+//                            setSerivce.setClearNoteNextOpen(value: clearNoteNextOpen)
+//                        }
                     }
                 }
             }.onAppear {
+                // 改用@AppStorage
 //                isAutoPaste = setSerivce.getAutoPasteMode()
 //                isAutoKeyboard = setSerivce.getShowKeyboardMode()
 //                clearNoteNextOpen = setSerivce.getClearNoteNextOpen()
@@ -90,19 +95,20 @@ struct SettingView: View {
 //                exitAfterSave = setSerivce.getExitAfterSave()
             }
             .toolbar {
-                #if os(macOS)
-                Button("Save", systemImage: "square.and.arrow.down", action: {
-                    saveSetting()
-                })
-                #else
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        saveSetting()
-                    }) {
-                        Image(systemName: "square.and.arrow.down")
-                    }
-                }
-                #endif
+                // 改用@AppStorage 自动保存，不用手动保存
+//                #if os(macOS)
+//                Button("Save", systemImage: "square.and.arrow.down", action: {
+//                    saveSetting()
+//                })
+//                #else
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    Button(action: {
+//                        saveSetting()
+//                    }) {
+//                        Image(systemName: "square.and.arrow.down")
+//                    }
+//                }
+//                #endif
             }
             .navigationTitle("更多")
             #if !os(macOS)

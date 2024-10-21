@@ -228,11 +228,11 @@ struct EditView: View {
         }
     }
 
-    func deleteTag(at offsets: IndexSet) {
+    private func deleteTag(at offsets: IndexSet) {
         noteItem.tags.remove(atOffsets: offsets)
     }
 
-    func addTag(tag: String) {
+    private func addTag(tag: String) {
         noteItem.tags.append(tag)
         debugPrint(noteItem)
     }
@@ -243,7 +243,7 @@ struct EditView: View {
 
         // 2. 创建一个新的 Task 对象，使用当前输入的任务标题
 //        let newTask = NoteItemDataModel(text: noteItem.text)
-        noteItem.image = image?.heicData()
+//        noteItem.image = image?.heicData()
         print(noteItem)
         // 3. 使用 modelContext 将新任务插入到数据模型中
         modelContext.insert(noteItem)

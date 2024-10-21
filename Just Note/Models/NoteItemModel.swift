@@ -88,9 +88,13 @@ class NoteTagDataModel {
     var id: UUID
     var text: String
     var type: String
-    init(id: UUID = UUID(), text: String, type: String = "") {
+    var create_time: Int
+    var data_json: String?
+    init(id: UUID = UUID(), text: String, type: String = "", create_time: Int, data_json: String? = nil) {
         self.id = id
         self.text = text
         self.type = type
+        self.create_time = create_time
+        self.data_json = data_json
     }
 }
