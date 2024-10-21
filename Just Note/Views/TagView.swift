@@ -15,6 +15,9 @@ struct TagView: View {
     @State private var tagList = [NoteTagDataModel]()
     @State private var isShowAddTagAlert = false
     @State private var newTag: String = ""
+    @State private var isShowInfoAlert = false
+    @State private var alertTitle: String = ""
+    @State private var alertMessage: String = ""
     var body: some View {
         NavigationStack(path: $tagList) {
             VStack {
@@ -67,13 +70,34 @@ struct TagView: View {
                         TextField("tag", text: $newTag)
                         Button("YES", action: {
                             debugPrint("newTag:" + newTag)
+                            let hasTag = tags.contains {
+                                $0.text.lowercased() == newTag.lowercased()
+                            }
                             if newTag.isNotEmpty {
-                                self.addTag(tag: newTag)
-                                newTag = ""
+                                if hasTag {
+                                    // TODO: 重复添加提示
+                                    alertTitle = "添加标签失败"
+                                    alertMessage = "标签\(newTag)已存在，标签不区分大小写"
+                                    isShowInfoAlert = true
+                                    newTag = ""
+                                } else {
+                                    self.addTag(tag: newTag)
+                                    newTag = ""
+                                }
                             }
                         })
                         Button("NO", action: {
                             isShowAddTagAlert = false
+                        })
+                    }.alert(alertTitle, isPresented: $isShowInfoAlert) {
+                        Text(alertMessage)
+                        Button("YES", action: {
+                            isShowInfoAlert = false
+                            alertTitle = ""
+                            alertMessage = ""
+                        })
+                        Button("NO", action: {
+                            isShowInfoAlert = false
                         })
                     }
                 }
